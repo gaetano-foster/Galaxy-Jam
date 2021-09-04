@@ -25,6 +25,13 @@ public class Game
     // game loop
     private boolean running = false; // by default this is false, but as soon as we call the .start() method, the game starts
                                     // not sure why I felt the need to explain this, but I think commented code is better or something
+                                    double delta = 0;
+    int desiredFPS = 60;
+    double timePerTick = 1000000000 / desiredFPS;
+    long now;
+    long lastTime = System.nanoTime();
+    long timer = 0;
+    float ticks = 0;
 
     // gfx
     private BufferStrategy bs;
@@ -66,14 +73,6 @@ public class Game
         init();
 
         // the fun part
-        double delta = 0;
-        int desiredFPS = 60;
-        double timePerTick = 1000000000 / desiredFPS;
-        long now;
-        long lastTime = System.nanoTime();
-        long timer = 0;
-        float ticks = 0;
-
         while (running)
         {
             now = System.nanoTime();
@@ -104,6 +103,8 @@ public class Game
     // update game
     private void update()
     {
+        if (player.isFullDed())
+            return;
         input.update();
 
         for (itToAdd = toAdd.listIterator(); itToAdd.hasNext();) // if we don't use an iterator and a separate list, we will get the

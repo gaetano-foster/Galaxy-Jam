@@ -19,6 +19,7 @@ public class Enemy extends Entity
     private Animation[] animations;
     private Assets assets;
     private boolean attacking = false, atkAnim = false;
+    private boolean ded = false;
     private long lastAttackTimer, attackCooldown = 800, attackTimer = 0;
 
     public Enemy(float x, float y, Game game)
@@ -44,14 +45,25 @@ public class Enemy extends Entity
         title = "enemy";
 
         bounds = new Rectangle(16, 6, 32, 66);
+        animations[2].looping = false;
     }
 
     @Override
     public void update()
     {
+        if (ded)
+        {
+            animations[2].update();
+            return;
+        }
         yMove = 3;
         y += yMove;
         fire();
+        for (Animation a : animations)
+        {
+            if (a != animations[2])
+                a.update();
+        }
     }
 
     private void fire()
@@ -95,13 +107,18 @@ public class Enemy extends Entity
     @Override
     public void render(Graphics g)
     {
-        g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
+        if (ded)
+        {
+            g.drawImage(animations[2].getCurrentFrame(), (int)x, (int)y, (int)width, (int)height, null);
+        }
+        else
+            g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
     }
 
     @Override
     public void die()
     {
-
+        ded = true;
     }
 
     private BufferedImage getCurrentAnimationFrame()
@@ -110,5 +127,10 @@ public class Enemy extends Entity
             return animations[1].getCurrentFrame();
         else
             return animations[0].getCurrentFrame();
+    }
+
+    public boolean isFullDed()
+    {
+        return animations[2].isOver();
     }
 }

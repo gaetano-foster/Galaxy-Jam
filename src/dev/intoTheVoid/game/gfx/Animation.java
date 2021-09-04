@@ -7,6 +7,8 @@ public class Animation
     private int speed, index;
     private long lastTime, timer;
     private BufferedImage[] frames;
+    public boolean looping = true;
+    private boolean over = false;
 
     public Animation(int speed, BufferedImage[] frames)
     {
@@ -27,13 +29,27 @@ public class Animation
             timer = 0;
             if (index >= frames.length)
             {
-                index = 0;
+                if (looping)
+                    index = 0;
+                else
+                {
+                    index = 0;
+                    over = true;
+                }
             }
         }
     }
 
     public BufferedImage getCurrentFrame()
     {
-        return frames[index];
+        if (!over)
+            return frames[index];
+        else
+            return new BufferedImage(1, 1, BufferedImage.TYPE_3BYTE_BGR);
+    }
+
+    public boolean isOver()
+    {
+        return over;
     }
 }

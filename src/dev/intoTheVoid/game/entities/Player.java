@@ -41,13 +41,17 @@ public class Player extends Entity
                 };
 
         bounds = new Rectangle(16, 6, 32, 66);
+        animations[2].looping = false;
     }
 
     @Override
     public void update()
     {
         if (ded)
+        {
+            animations[2].update();
             return;
+        }
 
         x += xMove;
         if (x > game.getWidth())
@@ -58,7 +62,8 @@ public class Player extends Entity
         fire(); // test if you gotta shoot, and fire
         for (Animation a : animations)
         {
-            a.update();
+            if (a != animations[2])
+                a.update();
         }
     }
 
@@ -121,7 +126,7 @@ public class Player extends Entity
     {
         if (ded)
         {
-
+            g.drawImage(animations[2].getCurrentFrame(), (int)x, (int)y, (int)width, (int)height, null);
         }
         else
             g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
@@ -135,12 +140,21 @@ public class Player extends Entity
 
     private BufferedImage getCurrentAnimationFrame()
     {
-        if (ded)
-            return animations[2].getCurrentFrame();
-
         if (atkAnim)
             return animations[1].getCurrentFrame();
         else
             return animations[0].getCurrentFrame();
+    }
+
+    // useless
+    public boolean isDed()
+    {
+        return ded;
+    }
+
+    // useful
+    public boolean isFullDed()
+    {
+        return animations[2].isOver();
     }
 }

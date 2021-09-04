@@ -54,6 +54,7 @@ public abstract class Projectile extends Entity
             else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.title == "fProj")
             {
                 die();
+                getEntityAt(0, yMove).die();
             }
             else
                 y += yMove;
@@ -71,8 +72,6 @@ public abstract class Projectile extends Entity
     {
         if (!active)
             return;
-        g.setColor(Color.RED);
-        g.drawRect((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
         g.drawImage(sprite, (int)x, (int)y, (int)width, (int)height, null);
     }
 }
