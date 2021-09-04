@@ -18,6 +18,7 @@ public abstract class Entity
     protected Rectangle bounds;
     protected boolean active = true;
     protected Game game;
+    protected String title;
 
     public Entity(float x, float y, float width, float height, Game game)
     {
@@ -113,5 +114,10 @@ public abstract class Entity
     public void setBounds(Rectangle bounds)
     {
         this.bounds = bounds;
+    }
+
+    public String getTitle()
+    {
+        return title;
     }
 }
