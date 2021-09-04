@@ -21,18 +21,31 @@ public class Assets
     {
         sheet = new SpriteSheet("/textures/spriteSheet.png");
 
-        // sprites for while player is alive
+        // player alive
         sprites.put("player00", sheet.crop(0, 0, 1, 1, DEF_SIZE));
         sprites.put("player01", sheet.crop(1, 0, 1, 1, DEF_SIZE));
         sprites.put("player02", sheet.crop(2, 0, 1, 1, DEF_SIZE));
 
-        // sprites for dying player
+        // player ded
         sprites.put("player10", sheet.crop(0, 1, 1, 1, DEF_SIZE));
         sprites.put("player11", sheet.crop(1, 1, 1, 1, DEF_SIZE));
         sprites.put("player12", sheet.crop(2, 1, 1, 1, DEF_SIZE));
         sprites.put("player13", sheet.crop(0, 2, 1, 1, DEF_SIZE));
         sprites.put("player14", sheet.crop(1, 2, 1, 1, DEF_SIZE));
         sprites.put("player15", sheet.crop(2, 2, 1, 1, DEF_SIZE));
+
+        // enemy alive
+        sprites.put("enemy00", sheet.crop(0, 3, 1, 1, DEF_SIZE));
+        sprites.put("enemy01", sheet.crop(1, 3, 1, 1, DEF_SIZE));
+        sprites.put("enemy02", sheet.crop(2, 3, 1, 1, DEF_SIZE));
+
+        // enemy ded
+        sprites.put("enemy10", sheet.crop(0, 3 + 1, 1, 1, DEF_SIZE));
+        sprites.put("enemy11", sheet.crop(1, 3 + 1, 1, 1, DEF_SIZE));
+        sprites.put("enemy12", sheet.crop(2, 3 + 1, 1, 1, DEF_SIZE));
+        sprites.put("enemy13", sheet.crop(0, 3 + 2, 1, 1, DEF_SIZE));
+        sprites.put("enemy14", sheet.crop(1, 3 + 2, 1, 1, DEF_SIZE));
+        sprites.put("enemy15", sheet.crop(2, 3 + 2, 1, 1, DEF_SIZE));
 
         // projectiles
         sprites.put("projectile0", sheet.crop(3, 0, 1, 1, DEF_SIZE)); // friendly

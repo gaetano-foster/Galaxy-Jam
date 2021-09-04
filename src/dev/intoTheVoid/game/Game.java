@@ -2,6 +2,7 @@ package dev.intoTheVoid.game;
 
 import dev.intoTheVoid.game.entities.Entity;
 import dev.intoTheVoid.game.entities.Player;
+import dev.intoTheVoid.game.entities.enemies.Enemy;
 import dev.intoTheVoid.game.gfx.Assets;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
@@ -36,6 +37,7 @@ public class Game
     private ListIterator<Entity> it;
     private ListIterator<Entity> itToAdd;
     private Player player;
+    private Enemy enemy;
 
     // variables will be used to create the display
     public Game(int width, int height, String title)
@@ -55,6 +57,7 @@ public class Game
         assets.loadAssets();
         it = entities.listIterator();
         player = new Player(this);
+        enemy = new Enemy(100, 100, this);
     }
 
     private void run()
@@ -95,13 +98,16 @@ public class Game
                 timer = 0;
             }
         }
+
+        stop(0);
     }
     // update game
     private void update()
     {
         input.update();
 
-        for (itToAdd = toAdd.listIterator(); itToAdd.hasNext();)
+        for (itToAdd = toAdd.listIterator(); itToAdd.hasNext();) // if we don't use an iterator and a separate list, we will get the
+                                                                // "ConcurrentModificationException". Bad!
         {
             it.add(itToAdd.next());
             itToAdd.remove();
@@ -150,7 +156,7 @@ public class Game
         if (!running)
             return;
         running = false;
-        System.exit(code); // so we will know if there was an error (unlikely, but it's good to be prepared)
+        System.exit(code);
     }
 
     // java-code.jpg
@@ -198,5 +204,10 @@ public class Game
     public ListIterator<Entity> getIt()
     {
         return it;
+    }
+
+    public Player getPlayer()
+    {
+        return player;
     }
 }

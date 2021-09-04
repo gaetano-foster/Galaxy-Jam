@@ -32,7 +32,7 @@ public abstract class Projectile extends Entity
         if (direction < -1)
             direction = -1;
 
-        bounds = new Rectangle(0, 4, 11, 66);
+        bounds = new Rectangle(0, 4, 11, 33);
     }
 
     @Override
@@ -46,8 +46,15 @@ public abstract class Projectile extends Entity
             y += yMove;
         else
         {
-            if (!checkEntityTitle(0, yMove).equalsIgnoreCase("player"))
+            if ((checkEntityTitle(0, yMove).equalsIgnoreCase("player") && this.title == "eProj")) // did you just unironically touch an enemy laser?
+            {
                 die();
+                game.getPlayer().die(); // kinda cringe bro
+            }
+            else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.title == "fProj")
+            {
+                die();
+            }
             else
                 y += yMove;
         }
@@ -64,6 +71,8 @@ public abstract class Projectile extends Entity
     {
         if (!active)
             return;
+        g.setColor(Color.RED);
+        g.drawRect((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
         g.drawImage(sprite, (int)x, (int)y, (int)width, (int)height, null);
     }
 }

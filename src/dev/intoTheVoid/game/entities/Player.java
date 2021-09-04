@@ -17,6 +17,7 @@ public class Player extends Entity
     private Assets assets;
     private boolean attacking = false, atkAnim = false;
     private long lastAttackTimer, attackCooldown = 400, attackTimer = attackCooldown;
+    private boolean ded = false;
 
     public Player(Game game)
     {
@@ -30,7 +31,7 @@ public class Player extends Entity
                         {assets.getSprite("player02"), assets.getSprite("player02")}, // firing animation
                         {assets.getSprite("player10"), assets.getSprite("player11"),
                                 assets.getSprite("player12"), assets.getSprite("player13"),
-                                assets.getSprite("player14"), assets.getSprite("player15")}  // death animation
+                                assets.getSprite("player14"), assets.getSprite("player15")}  // ded
                 };
         animations = new Animation[]
                 {
@@ -45,13 +46,16 @@ public class Player extends Entity
     @Override
     public void update()
     {
+        if (ded)
+            return;
+
         x += xMove;
         if (x > game.getWidth())
             x = 0;
         else if (x < -64)
             x = game.getWidth() - 64;
-        getInput();
-        fire();
+        getInput(); // gets input
+        fire(); // test if you gotta shoot, and fire
         for (Animation a : animations)
         {
             a.update();
@@ -76,6 +80,7 @@ public class Player extends Entity
 
     private void fire()
     {
+        // fun timer stuff
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
 
@@ -97,6 +102,7 @@ public class Player extends Entity
             attacking = false;
         }
 
+        // shoot boom boom haha
         if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z))
         {
             new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
@@ -113,17 +119,25 @@ public class Player extends Entity
     @Override
     public void render(Graphics g)
     {
-        g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
+        if (ded)
+        {
+
+        }
+        else
+            g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
     }
 
     @Override
     public void die()
     {
-
+        ded = true; // self explanatory
     }
 
     private BufferedImage getCurrentAnimationFrame()
     {
+        if (ded)
+            return animations[2].getCurrentFrame();
+
         if (atkAnim)
             return animations[1].getCurrentFrame();
         else
