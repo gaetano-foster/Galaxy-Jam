@@ -45,6 +45,16 @@ public class Display
         canvas.createBufferStrategy(3); // create buffer strategy NOW to save headaches later
     }
 
+    // just to make the code look cleaner, don't want the init method flooded with .addMouseListener() calls!
+    public void addInput(Input input)
+    {
+        frame.addKeyListener(input);
+        frame.addMouseListener(input);
+        frame.addMouseMotionListener(input);
+        canvas.addMouseListener(input); // must add mouse listener for canvas too, I believe
+        canvas.addMouseMotionListener(input);
+    }
+
     public int getWidth()
     {
         return width;
