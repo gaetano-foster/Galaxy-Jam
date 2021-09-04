@@ -1,10 +1,12 @@
 package dev.intoTheVoid.game;
 
+import dev.intoTheVoid.game.gfx.Assets;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class Game
 {
@@ -20,9 +22,11 @@ public class Game
     private boolean running = false; // by default this is false, but as soon as we call the .start() method, the game starts
                                     // not sure why I felt the need to explain this, but I think commented code is better or something
 
-    // rendering stuff
+    // gfx
     private BufferStrategy bs;
     private Graphics g;
+    private Assets assets;
+    private BufferedImage toDraw;
 
     // variables will be used to create the display
     public Game(int width, int height, String title)
@@ -35,11 +39,15 @@ public class Game
     // initiates variables and assets
     private void init()
     {
+        assets = new Assets();
         input = new Input();
         display = new Display(width, height, title);
         display.addInput(input); // the marriage (can you tell I just woke up)
+        assets.loadAssets();
     }
 
+
+    int i = 0;
     private void run()
     {
         // initiate variables and blah blah blah you already read this
@@ -73,17 +81,20 @@ public class Game
             // reset ticks and timer, and show fps on window
             if (timer >= 1000000000)
             {
+                i++;
                 display.setTitle(display.getTitle() + " FPS: " + ticks);
                 ticks = 0;
                 timer = 0;
             }
         }
     }
-
     // update game
     private void update()
     {
+        if (i == assets.getKeys().length)
+            i = 0;
 
+        toDraw = assets.getSprite(assets.getKeys()[i]);
     }
 
     // draw updates
@@ -93,8 +104,11 @@ public class Game
 
         g = bs.getDrawGraphics(); // so we can draw stuff to the buffers
         // clear frame
-        g.clearRect(0, 0, 800, 600); // I like to think the low resolution will give the "1980's arcade" vibe
+        g.setColor(Color.black);
+        g.fillRect( 0, 0, width, height);
         // draw stuff
+
+        g.drawImage(toDraw, width / 2, height / 2, null);
 
         // stop drawing
         bs.show();
