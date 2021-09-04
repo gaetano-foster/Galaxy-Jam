@@ -1,14 +1,15 @@
 package dev.intoTheVoid.game;
 
 import dev.intoTheVoid.game.entities.Entity;
+import dev.intoTheVoid.game.entities.Player;
 import dev.intoTheVoid.game.gfx.Assets;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 public class Game
 {
@@ -31,6 +32,10 @@ public class Game
 
     // entities
     private ArrayList<Entity> entities = new ArrayList<Entity>();
+    public ArrayList<Entity> toAdd = new ArrayList<Entity>();
+    private ListIterator<Entity> it;
+    private ListIterator<Entity> itToAdd;
+    private Player player;
 
     // variables will be used to create the display
     public Game(int width, int height, String title)
@@ -48,6 +53,8 @@ public class Game
         display = new Display(width, height, title);
         display.addInput(input); // the marriage (can you tell I just woke up)
         assets.loadAssets();
+        it = entities.listIterator();
+        player = new Player(this);
     }
 
     private void run()
@@ -92,6 +99,18 @@ public class Game
     // update game
     private void update()
     {
+        input.update();
+
+        for (itToAdd = toAdd.listIterator(); itToAdd.hasNext();)
+        {
+            it.add(itToAdd.next());
+            itToAdd.remove();
+        }
+        for (it = entities.listIterator(); it.hasNext();)
+        {
+            Entity e = it.next();
+            e.update();
+        }
     }
 
     // draw updates
@@ -105,6 +124,12 @@ public class Game
         g.fillRect( 0, 0, width, height);
         // draw stuff
 
+        for (it = entities.listIterator(); it.hasNext();)
+        {
+            Entity e = it.next();
+            e.render(g);
+        }
+
         // stop drawing
         bs.show();
         g.dispose();
@@ -113,8 +138,7 @@ public class Game
     // start the game
     public void start()
     {
-        if (running) // in retrospect, I'm not sure if this is necessary when not using threads,
-                    // but I'm so used to doing it with no explanation I will leave it alone
+        if (running)
             return;
         running = true;
         run();
@@ -169,5 +193,10 @@ public class Game
     public ArrayList<Entity> getEntities()
     {
         return entities;
+    }
+
+    public ListIterator<Entity> getIt()
+    {
+        return it;
     }
 }

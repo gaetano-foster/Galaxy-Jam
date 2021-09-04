@@ -14,6 +14,7 @@ import java.awt.*;
 public abstract class Entity
 {
     // rotations are not necessary, you will face 1 direction the whole game
+    public static float defaultSize = 64;
     protected float x, y, width, height;
     protected Rectangle bounds;
     protected boolean active = true;
@@ -27,7 +28,8 @@ public abstract class Entity
         this.y = y;
         this.width = width;
         this.height = height;
-        bounds = new Rectangle((int)x, (int)y, (int)width, (int)height);
+        bounds = new Rectangle(0, 0, (int)width, (int)height);
+        game.toAdd.add(this);
     }
 
     public Rectangle getCollisionBounds(float xOffset, float yOffset)
@@ -52,6 +54,20 @@ public abstract class Entity
             }
         }
         return false;
+    }
+
+    public String checkEntityTitle(float xOffset, float yOffset)
+    {
+        for (Entity e : game.getEntities())
+        {
+            if (e.equals(this))
+                continue;
+            if (e.getCollisionBounds(0f, 0f).intersects(getCollisionBounds(xOffset, yOffset)))
+            {
+                return e.getTitle();
+            }
+        }
+        return "null";
     }
 
     public boolean isActive()

@@ -7,7 +7,6 @@ public class Animation
     private int speed, index;
     private long lastTime, timer;
     private BufferedImage[] frames;
-    public boolean debug = false;
 
     public Animation(int speed, BufferedImage[] frames)
     {

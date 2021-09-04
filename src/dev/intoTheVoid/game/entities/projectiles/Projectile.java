@@ -31,6 +31,8 @@ public abstract class Projectile extends Entity
             direction = 1;
         if (direction < -1)
             direction = -1;
+
+        bounds = new Rectangle(0, 4, 11, 66);
     }
 
     @Override
@@ -43,7 +45,12 @@ public abstract class Projectile extends Entity
         if (!checkEntityCollisions(0, yMove))
             y += yMove;
         else
-            die();
+        {
+            if (!checkEntityTitle(0, yMove).equalsIgnoreCase("player"))
+                die();
+            else
+                y += yMove;
+        }
     }
 
     @Override
