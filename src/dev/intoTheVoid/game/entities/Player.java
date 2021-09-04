@@ -18,6 +18,7 @@ public class Player extends Entity
     private boolean attacking = false, atkAnim = false;
     private long lastAttackTimer, attackCooldown = 400, attackTimer = attackCooldown;
     private boolean ded = false;
+    private int score;
 
     public Player(Game game)
     {
@@ -40,6 +41,7 @@ public class Player extends Entity
                         new Animation(150, anims[2])
                 };
 
+        score = 0;
         bounds = new Rectangle(16, 6, 32, 66);
         animations[2].looping = false;
     }
@@ -156,5 +158,15 @@ public class Player extends Entity
     public boolean isFullDed()
     {
         return animations[2].isOver();
+    }
+
+    public int getScore()
+    {
+        return score;
+    }
+
+    public void setScore(int score)
+    {
+        this.score = score;
     }
 }

@@ -1,5 +1,8 @@
 package dev.intoTheVoid.game.gfx;
 
+import dev.intoTheVoid.game.fonts.FontLoader;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -8,6 +11,7 @@ public class Assets
     private HashMap<String, BufferedImage> sprites = new HashMap<String, BufferedImage>(); // easy access to all sprites
     private SpriteSheet sheet;
     private final int DEF_SIZE = 32;
+    public Font cs28 = FontLoader.loadFont("res/fonts/comic-sans.ttf", 28);
 
     /*
       * Loads all sprites into memory.

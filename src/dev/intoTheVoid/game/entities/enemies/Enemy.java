@@ -20,6 +20,7 @@ public class Enemy extends Entity
     private Assets assets;
     private boolean attacking = false, atkAnim = false;
     private boolean ded = false;
+    private float liveX = 0, liveY = 0; // so we can move the collision hull, but still play animation
     private long lastAttackTimer, attackCooldown = 800, attackTimer = 0;
 
     public Enemy(float x, float y, Game game)
@@ -56,6 +57,8 @@ public class Enemy extends Entity
             animations[2].update();
             return;
         }
+        liveX = x;
+        liveY = y;
         yMove = 3;
         y += yMove;
         fire();
@@ -109,7 +112,7 @@ public class Enemy extends Entity
     {
         if (ded)
         {
-            g.drawImage(animations[2].getCurrentFrame(), (int)x, (int)y, (int)width, (int)height, null);
+            g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int)liveY, (int)width, (int)height, null);
         }
         else
             g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
@@ -118,6 +121,11 @@ public class Enemy extends Entity
     @Override
     public void die()
     {
+        if (ded)
+            return;
+        x = 42069; // the funny
+        y = 42069;
+        game.getPlayer().setScore(game.getPlayer().getScore() + 1);
         ded = true;
     }
 

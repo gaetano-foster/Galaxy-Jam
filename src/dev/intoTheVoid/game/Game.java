@@ -4,6 +4,7 @@ import dev.intoTheVoid.game.entities.Entity;
 import dev.intoTheVoid.game.entities.Player;
 import dev.intoTheVoid.game.entities.enemies.Enemy;
 import dev.intoTheVoid.game.gfx.Assets;
+import dev.intoTheVoid.game.gfx.Text;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
 
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Random;
 
 public class Game
 {
@@ -45,6 +47,7 @@ public class Game
     private ListIterator<Entity> itToAdd;
     private Player player;
     private Enemy enemy;
+    private Random random = new Random();
 
     // variables will be used to create the display
     public Game(int width, int height, String title)
@@ -93,6 +96,7 @@ public class Game
             if (timer >= 1000000000)
             {
                 display.setTitle(display.getTitle() + " FPS: " + ticks);
+                new Enemy(random.nextInt(width - 64), -10, this);
                 ticks = 0;
                 timer = 0;
             }
@@ -136,6 +140,10 @@ public class Game
             Entity e = it.next();
             e.render(g);
         }
+
+        // gui
+
+        Text.drawString(g, "SCORE: " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
 
         // stop drawing
         bs.show();
