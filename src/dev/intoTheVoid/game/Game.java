@@ -1,5 +1,6 @@
 package dev.intoTheVoid.game;
 
+import dev.intoTheVoid.game.entities.Entity;
 import dev.intoTheVoid.game.gfx.Assets;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
@@ -7,6 +8,7 @@ import dev.intoTheVoid.game.io.Input;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class Game
 {
@@ -26,7 +28,9 @@ public class Game
     private BufferStrategy bs;
     private Graphics g;
     private Assets assets;
-    private BufferedImage toDraw;
+
+    // entities
+    private ArrayList<Entity> entities = new ArrayList<Entity>();
 
     // variables will be used to create the display
     public Game(int width, int height, String title)
@@ -46,8 +50,6 @@ public class Game
         assets.loadAssets();
     }
 
-
-    int i = 0;
     private void run()
     {
         // initiate variables and blah blah blah you already read this
@@ -81,7 +83,6 @@ public class Game
             // reset ticks and timer, and show fps on window
             if (timer >= 1000000000)
             {
-                i++;
                 display.setTitle(display.getTitle() + " FPS: " + ticks);
                 ticks = 0;
                 timer = 0;
@@ -91,10 +92,6 @@ public class Game
     // update game
     private void update()
     {
-        if (i == assets.getKeys().length)
-            i = 0;
-
-        toDraw = assets.getSprite(assets.getKeys()[i]);
     }
 
     // draw updates
@@ -107,8 +104,6 @@ public class Game
         g.setColor(Color.black);
         g.fillRect( 0, 0, width, height);
         // draw stuff
-
-        g.drawImage(toDraw, width / 2, height / 2, null);
 
         // stop drawing
         bs.show();
@@ -164,5 +159,15 @@ public class Game
     public boolean isRunning()
     {
         return running;
+    }
+
+    public Assets getAssets()
+    {
+        return assets;
+    }
+
+    public ArrayList<Entity> getEntities()
+    {
+        return entities;
     }
 }
