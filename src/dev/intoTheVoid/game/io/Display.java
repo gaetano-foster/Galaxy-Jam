@@ -10,6 +10,7 @@ public class Display
     private JFrame frame;
     private Canvas canvas;
 
+    // creates window, AND displays it. Will have to be careful when and where I call this, lest I cause compiler errors!
     public Display(int width, int height, String title)
     {
         this.title = title;
@@ -19,6 +20,7 @@ public class Display
         constructWindow();
     }
 
+    // creates the window
     private void constructWindow()
     {
         frame = new JFrame(title);
@@ -26,19 +28,21 @@ public class Display
         frame.setSize(width, height);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
+        frame.setResizable(false); // if the window is resizable, i will have to work harder to make sure the user doesn't see things they
+                                    // aren't supposed to see. It's easier to take away a user's ability than work around it. Sorry!
         frame.setVisible(true);
 
         canvas = new Canvas();
 
         canvas.setMaximumSize(new Dimension(width, height));
-        canvas.setMinimumSize(new Dimension(width, height));
+        canvas.setMinimumSize(new Dimension(width, height)); // not sure if using all of these calls is necessary anymore,
+                                                                // but I'm a creature of habit! What can I say?
         canvas.setPreferredSize(new Dimension(width, height));
         canvas.setFocusable(false);
 
         frame.add(canvas);
         frame.pack();
-        canvas.createBufferStrategy(3);
+        canvas.createBufferStrategy(3); // create buffer strategy NOW to save headaches later
     }
 
     public int getWidth()

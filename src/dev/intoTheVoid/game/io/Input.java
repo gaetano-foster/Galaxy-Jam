@@ -18,6 +18,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
 
     public void update()
     {
+        // makes sure that you only pressed button once, so you can't just spam the gun by holding space
         for (int i = 0; i < keys.length; i++)
         {
             if (cantPress[i] && !keys[i])
