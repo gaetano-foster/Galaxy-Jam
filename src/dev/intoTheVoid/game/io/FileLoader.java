@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 
 public class FileLoader
 {
+    // loads image
     public static BufferedImage loadImage(String path)
     {
         try
@@ -31,6 +32,7 @@ public class FileLoader
         }
     }
 
+    // gets contents of a file
     public static String loadFileAsString(String path, Charset encoding)
     {
         byte[] encoded = new byte[0];
@@ -44,6 +46,7 @@ public class FileLoader
         return new String(encoded, encoding);
     }
 
+    // writes to file, replacing existing characters in the process
     public static void writeToFile(String path, String contents)
     {
         try
