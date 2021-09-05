@@ -206,7 +206,7 @@ public class Game
         // gui
 
         Text.drawString(g, player.getKillstreak(), 0, height - 28 - 32, false, Color.WHITE, assets.cs28);
-        if (!gameOver)
+        if (gameOverY <= -height / 3)
         {
             Text.drawString(g, "FRAGS ! " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
             Text.drawString(g, "HIGHEST KILLSTREAK ! " + highestScore, width - 400, height - 28, false, Color.WHITE, assets.cs28);
