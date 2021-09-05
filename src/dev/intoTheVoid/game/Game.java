@@ -3,6 +3,7 @@ package dev.intoTheVoid.game;
 import dev.intoTheVoid.game.entities.Entity;
 import dev.intoTheVoid.game.entities.Player;
 import dev.intoTheVoid.game.entities.enemies.Enemy;
+import dev.intoTheVoid.game.entities.enemies.Meteor;
 import dev.intoTheVoid.game.gfx.Assets;
 import dev.intoTheVoid.game.io.FileLoader;
 import dev.intoTheVoid.game.gfx.Text;
@@ -92,6 +93,7 @@ public class Game
         highestScore = FileLoader.loadFileAsString("res/killstreak/highestkillstreak.txt", StandardCharsets.UTF_8);
     }
 
+    private int i = 0;
     private void run()
     {
         // initiate variables and blah blah blah you already read this
@@ -119,7 +121,14 @@ public class Game
             {
                 display.setTitle(display.getTitle() + " FPS: " + ticks);
                 if (!player.isFullDed())
+                {
+                    if (i == 1)
+                        new Meteor(random.nextInt(width - 64), -10, this);
                     new Enemy(random.nextInt(width - 64), -10, this);
+                }
+                i++;
+                if (i == 2)
+                    i = 0;
                 ticks = 0;
                 timer = 0;
             }

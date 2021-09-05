@@ -43,10 +43,12 @@ public abstract class Projectile extends Entity
         yMove = speed * direction;
 
         if (!checkEntityCollisions(0, yMove))
+        {
             y += yMove;
+        }
         else
         {
-            if ((checkEntityTitle(0, yMove).equalsIgnoreCase("player") && this.title == "eProj")) // did you just unironically touch an enemy laser?
+            if ((checkEntityTitle(0, yMove).equalsIgnoreCase("player") && (this.title == "eProj") || (this.title == "mProj"))) // did you just unironically touch an enemy laser?
             {
                 die();
                 game.getPlayer().die(); // kinda cringe bro

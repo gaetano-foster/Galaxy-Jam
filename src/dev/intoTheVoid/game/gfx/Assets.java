@@ -55,6 +55,10 @@ public class Assets
         // projectiles
         sprites.put("projectile0", sheet.crop(3, 0, 1, 1, DEF_SIZE)); // friendly
         sprites.put("projectile1", sheet.crop(3, 1, 1, 1, DEF_SIZE)); // enemy
+        sprites.put("projectile2", sheet.crop(4, 2, 1, 1, DEF_SIZE)); // meteor
+
+        // power up
+        sprites.put("shield", sheet.crop(3, 4, 1, 1, DEF_SIZE)); // bubble
     }
 
     public BufferedImage getSprite(String key)
