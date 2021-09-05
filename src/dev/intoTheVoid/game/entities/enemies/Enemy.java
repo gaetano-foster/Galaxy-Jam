@@ -98,6 +98,7 @@ public class Enemy extends Entity
         // shoot boom boom haha
         if ( new Rectangle((int)game.getPlayer().getBounds().x + (int)game.getPlayer().getX(), (int)game.getPlayer().getBounds().y + (int)game.getPlayer().getY(), game.getPlayer().getBounds().width, game.getPlayer().getBounds().height).intersects((int)this.x - 9, (int)this.y, (int)width + 15, game.getHeight()))
         {
+            SoundPlayer.playSound("res/sounds/eshoot.wav");
             new EnemyProjectile(x + width - 25, y + 25, 12, 44, game); // right side
             new EnemyProjectile(x + 15, y + 25, 12, 44, game); // left side
         }
@@ -142,23 +143,23 @@ public class Enemy extends Entity
         // handle killstreaks
         if (score >= 10 && score < 20)
         {
-            game.getPlayer().setKillstreak("(KILLING SPREE!)");
+            game.getPlayer().setKillstreak("KILLING SPREE!");
         }
         else if (score >= 20 && score < 30)
         {
-            game.getPlayer().setKillstreak("(UNSTOPPABLE!)");
+            game.getPlayer().setKillstreak("UNSTOPPABLE!");
         }
         else if (score >= 30 && score < 40)
         {
-            game.getPlayer().setKillstreak("(TOO LEGIT TO QUIT!)");
+            game.getPlayer().setKillstreak("TOO LEGIT TO QUIT!");
         }
         else if (score >= 40 && score < 50)
         {
-            game.getPlayer().setKillstreak("(ON A RAMPAGE!)");
+            game.getPlayer().setKillstreak("ON A RAMPAGE!");
         }
         else if (score >= 50)
         {
-            game.getPlayer().setKillstreak("(GODLIKE!)");
+            game.getPlayer().setKillstreak("GODLIKE!");
         }
 
         if (score % 10 == 0)

@@ -27,7 +27,7 @@ public class Player extends Entity
 
     public Player(Game game)
     {
-        super(game.getWidth() / 2.0f, game.getHeight() - 100, defaultSize, defaultSize, game);
+        super(game.getWidth() / 2.0f, game.getHeight() - 140, defaultSize, defaultSize, game);
         assets = game.getAssets();
         title = "player";
         xMove = 0;
