@@ -29,6 +29,8 @@ public class Meteor extends Projectile
     public void render(Graphics g)
     {
         super.render(g);
+        //g.setColor(Color.YELLOW);
+        //g.drawRect((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
     }
 
     @Override

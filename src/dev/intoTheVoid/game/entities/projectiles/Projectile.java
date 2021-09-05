@@ -2,6 +2,7 @@ package dev.intoTheVoid.game.entities.projectiles;
 
 import dev.intoTheVoid.game.Game;
 import dev.intoTheVoid.game.entities.Entity;
+import dev.intoTheVoid.game.sfx.SoundPlayer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -48,15 +49,24 @@ public abstract class Projectile extends Entity
         }
         else
         {
-            if ((checkEntityTitle(0, yMove).equalsIgnoreCase("player") && (this.title == "eProj") || (this.title == "mProj"))) // did you just unironically touch an enemy laser?
+            if ((checkEntityTitle(0, yMove).equalsIgnoreCase("player") && (this.title.equals("eProj")))) // did you just unironically touch an enemy laser?
             {
-                die();
                 game.getPlayer().die(); // kinda cringe bro
-            }
-            else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.title == "fProj")
-            {
                 die();
+            }
+            else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.title.equals("fProj"))
+            {
                 getEntityAt(0, yMove).die();
+                die();
+            }
+            else if (checkEntityTitle(0, yMove).equalsIgnoreCase("fProj") && this.title.equals("mProj"))
+            {
+                getEntityAt(0, yMove).die();
+                SoundPlayer.playSound("res/sounds/die.wav");
+            }
+            else if (checkEntityTitle(0, yMove).equalsIgnoreCase("player") && this.title.equals("mProj"))
+            {
+                game.getPlayer().die();
             }
             else
                 y += yMove;
@@ -67,6 +77,8 @@ public abstract class Projectile extends Entity
     public void die()
     {
         active = false;
+        x = 3879;
+        y = 9232;
     }
 
     @Override

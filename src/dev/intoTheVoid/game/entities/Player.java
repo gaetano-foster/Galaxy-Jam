@@ -140,6 +140,9 @@ public class Player extends Entity
         }
         else
             g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
+
+        //g.setColor(Color.YELLOW);
+        //g.drawRect((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
     }
 
     @Override
