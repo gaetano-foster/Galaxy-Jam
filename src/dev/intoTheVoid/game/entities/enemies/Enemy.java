@@ -157,14 +157,21 @@ public class Enemy extends Entity
         {
             game.getPlayer().setKillstreak("ON A RAMPAGE!");
         }
-        else if (score >= 50)
+        else if (score >= 50 && score < 100)
         {
             game.getPlayer().setKillstreak("GODLIKE!");
+        }
+        else if (score >= 100)
+        {
+            game.getPlayer().setKillstreak("THE SLAYER!");
         }
 
         if (score % 10 == 0)
         {
-            SoundPlayer.playSound("res/sounds/domination.wav");
+            if (score == 100)
+                SoundPlayer.playSound("res/sounds/the-slayer.wav");
+            else
+                SoundPlayer.playSound("res/sounds/domination.wav");
         }
     }
 
