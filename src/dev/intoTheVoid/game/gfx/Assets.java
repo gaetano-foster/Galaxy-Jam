@@ -11,8 +11,8 @@ public class Assets
     private HashMap<String, BufferedImage> sprites = new HashMap<String, BufferedImage>(); // easy access to all sprites
     private SpriteSheet sheet;
     private final int DEF_SIZE = 32;
-    public Font cs28 = FontLoader.loadFont("res/fonts/comic-sans.ttf", 28);
-    public Font cs64 = FontLoader.loadFont("res/fonts/comic-sans.ttf", 64);
+    public Font cs28 = FontLoader.loadFont("res/fonts/arcade-classic.ttf", 28);
+    public Font cs64 = FontLoader.loadFont("res/fonts/arcade-classic.ttf", 64);
 
     /*
       * Loads all sprites into memory.
