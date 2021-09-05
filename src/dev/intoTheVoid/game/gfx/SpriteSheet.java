@@ -1,5 +1,7 @@
 package dev.intoTheVoid.game.gfx;
 
+import dev.intoTheVoid.game.io.FileLoader;
+
 import java.awt.image.BufferedImage;
 
 public class SpriteSheet

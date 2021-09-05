@@ -144,15 +144,15 @@ public class Enemy extends Entity
         {
             game.getPlayer().setKillstreak("(KILLING SPREE!)");
         }
-        else if (score >= 30 && score < 40)
+        else if (score >= 20 && score < 30)
         {
             game.getPlayer().setKillstreak("(UNSTOPPABLE!)");
         }
-        else if (score >= 50 && score < 60)
+        else if (score >= 40 && score < 50)
         {
             game.getPlayer().setKillstreak("(ON A RAMPAGE!)");
         }
-        else if (score >= 60)
+        else if (score >= 50)
         {
             game.getPlayer().setKillstreak("(GODLIKE!)");
         }

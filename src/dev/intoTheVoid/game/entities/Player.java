@@ -4,6 +4,7 @@ import dev.intoTheVoid.game.Game;
 import dev.intoTheVoid.game.entities.projectiles.FriendlyProjectile;
 import dev.intoTheVoid.game.gfx.Animation;
 import dev.intoTheVoid.game.gfx.Assets;
+import dev.intoTheVoid.game.io.FileLoader;
 import dev.intoTheVoid.game.sfx.SoundPlayer;
 
 import java.awt.*;
@@ -148,6 +149,10 @@ public class Player extends Entity
             return;
         SoundPlayer.playSound("res/sounds/die.wav");
         ded = true; // self explanatory
+        if (Integer.parseInt(game.getHighestScore()) < score)
+        {
+            FileLoader.writeToFile("res/killstreak/highestkillstreak.txt", Integer.toString(score)); // write highest ks
+        }
         setScore(0);
         setKillstreak(" "); // reset killstreak
     }

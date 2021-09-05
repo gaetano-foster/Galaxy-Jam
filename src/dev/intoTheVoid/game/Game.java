@@ -4,15 +4,17 @@ import dev.intoTheVoid.game.entities.Entity;
 import dev.intoTheVoid.game.entities.Player;
 import dev.intoTheVoid.game.entities.enemies.Enemy;
 import dev.intoTheVoid.game.gfx.Assets;
-import dev.intoTheVoid.game.gfx.FileLoader;
+import dev.intoTheVoid.game.io.FileLoader;
 import dev.intoTheVoid.game.gfx.Text;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
+import dev.intoTheVoid.game.sfx.SoundPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -54,6 +56,7 @@ public class Game
     private ListIterator<Entity> itToAdd;
     private Player player;
     private Random random = new Random();
+    private String highestScore;
 
     // variables will be used to create the display
     public Game(int width, int height, String title)
@@ -71,19 +74,21 @@ public class Game
         display = new Display(width, height, title);
         display.addInput(input); // the marriage (can you tell I just woke up)
         assets.loadAssets();
-        initGameStuff();
-    }
-
-    private void initGameStuff()
-    {
         it = entities.listIterator();
-        player = new Player(this);
         scrollingSky = FileLoader.loadImage("/textures/sky.png");
         scrollingSky2 = scrollingSky;
         skyY = 0;
         skyY1 = -height;
+        initGameStuff();
+        SoundPlayer.playSound("res/sounds/shoot.wav");
+    }
+
+    private void initGameStuff()
+    {
+        player = new Player(this);
         gameOverY = -height / 3;
         gameOver = false;
+        highestScore = FileLoader.loadFileAsString("res/killstreak/highestkillstreak.txt", StandardCharsets.UTF_8);
     }
 
     private void run()
@@ -146,7 +151,7 @@ public class Game
         // game over handling code
         if ((input.keyJustDown(KeyEvent.VK_ENTER) || (input.keyJustDown(KeyEvent.VK_SPACE) || (input.keyJustDown(KeyEvent.VK_Z)))) && gameOver)
         {
-            player = new Player(this);
+            initGameStuff();
         }
 
         if (player.isDed())
@@ -190,8 +195,9 @@ public class Game
 
         // gui
 
-        Text.drawString(g, "FRAGS: " + player.getScore() + " " + player.getKillstreak(), 0, height - 28, false, Color.WHITE, assets.cs28);
-        Text.drawString(g, "FRAGS: " + player.getScore() + " " + player.getKillstreak(), 0, height - 28, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, player.getKillstreak(), 0, height - 28 - 32, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, "FRAGS: " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, "HIGHEST KILLSTREAK: " + highestScore, width - 400, height - 28, false, Color.WHITE, assets.cs28);
         Text.drawString(g, "GAME OVER", width / 2, gameOverY, true, Color.WHITE, assets.cs64);
 
         // stop drawing
@@ -267,5 +273,10 @@ public class Game
     public Player getPlayer()
     {
         return player;
+    }
+
+    public String getHighestScore()
+    {
+        return highestScore;
     }
 }
