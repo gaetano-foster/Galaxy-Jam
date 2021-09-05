@@ -4,6 +4,7 @@ import dev.intoTheVoid.game.Game;
 import dev.intoTheVoid.game.entities.projectiles.FriendlyProjectile;
 import dev.intoTheVoid.game.gfx.Animation;
 import dev.intoTheVoid.game.gfx.Assets;
+import dev.intoTheVoid.game.sfx.SoundPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -18,6 +19,7 @@ public class Player extends Entity
     private boolean attacking = false, atkAnim = false;
     private long lastAttackTimer, attackCooldown = 400, attackTimer = attackCooldown;
     private boolean ded = false;
+    private String killstreak = " ";
     private int score;
 
     public Player(Game game)
@@ -112,6 +114,7 @@ public class Player extends Entity
         // shoot boom boom haha
         if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z))
         {
+            SoundPlayer.playSound("res/sounds/shoot.wav");
             new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
             new FriendlyProjectile(x + 15, y - 25, 12, 44, game); // left side
         }
@@ -137,6 +140,9 @@ public class Player extends Entity
     @Override
     public void die()
     {
+        if (ded)
+            return;
+        SoundPlayer.playSound("res/sounds/die.wav");
         ded = true; // self explanatory
     }
 
@@ -168,5 +174,15 @@ public class Player extends Entity
     public void setScore(int score)
     {
         this.score = score;
+    }
+
+    public String getKillstreak()
+    {
+        return killstreak;
+    }
+
+    public void setKillstreak(String killstreak)
+    {
+        this.killstreak = killstreak;
     }
 }

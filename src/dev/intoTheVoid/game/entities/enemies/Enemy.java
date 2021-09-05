@@ -6,6 +6,7 @@ import dev.intoTheVoid.game.entities.projectiles.EnemyProjectile;
 import dev.intoTheVoid.game.entities.projectiles.FriendlyProjectile;
 import dev.intoTheVoid.game.gfx.Animation;
 import dev.intoTheVoid.game.gfx.Assets;
+import dev.intoTheVoid.game.sfx.SoundPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,6 +16,7 @@ import java.awt.image.BufferedImage;
 public class Enemy extends Entity
 {
     private float yMove;
+    private float speed = 5;
     private BufferedImage[][] anims;
     private Animation[] animations;
     private Assets assets;
@@ -59,7 +61,7 @@ public class Enemy extends Entity
         }
         liveX = x;
         liveY = y;
-        yMove = 3;
+        yMove = speed;
         y += yMove;
         fire();
         for (Animation a : animations)
@@ -123,10 +125,41 @@ public class Enemy extends Entity
     {
         if (ded)
             return;
+        SoundPlayer.playSound("res/sounds/hit.wav");
         x = 42069; // the funny
         y = 42069;
-        game.getPlayer().setScore(game.getPlayer().getScore() + 1);
         ded = true;
+        addScore();
+    }
+
+    private void addScore()
+    {
+        int score = game.getPlayer().getScore();
+        game.getPlayer().setScore(score + 1);
+        score = game.getPlayer().getScore();
+
+        // handle killstreaks
+        if (score >= 5 && score < 10)
+        {
+            game.getPlayer().setKillstreak("(KILLING SPREE!)");
+        }
+        else if (score >= 10 && score < 15)
+        {
+            game.getPlayer().setKillstreak("(UNSTOPPABLE!)");
+        }
+        else if (score >= 15 && score < 20)
+        {
+            game.getPlayer().setKillstreak("(ON A RAMPAGE!)");
+        }
+        else if (score >= 20)
+        {
+            game.getPlayer().setKillstreak("(GODLIKE!)");
+        }
+
+        if (score % 5 == 0)
+        {
+            SoundPlayer.playSound("res/sounds/domination.wav");
+        }
     }
 
     private BufferedImage getCurrentAnimationFrame()

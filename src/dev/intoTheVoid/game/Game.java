@@ -4,12 +4,14 @@ import dev.intoTheVoid.game.entities.Entity;
 import dev.intoTheVoid.game.entities.Player;
 import dev.intoTheVoid.game.entities.enemies.Enemy;
 import dev.intoTheVoid.game.gfx.Assets;
+import dev.intoTheVoid.game.gfx.FileLoader;
 import dev.intoTheVoid.game.gfx.Text;
 import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.Random;
@@ -39,6 +41,7 @@ public class Game
     private BufferStrategy bs;
     private Graphics g;
     private Assets assets;
+    private BufferedImage scrollingSky, scrollingSky2; // for the sky
 
     // entities
     private ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -67,7 +70,7 @@ public class Game
         assets.loadAssets();
         it = entities.listIterator();
         player = new Player(this);
-        enemy = new Enemy(100, 100, this);
+        //scrollingSky = FileLoader.loadImage("")
     }
 
     private void run()
@@ -96,7 +99,8 @@ public class Game
             if (timer >= 1000000000)
             {
                 display.setTitle(display.getTitle() + " FPS: " + ticks);
-                new Enemy(random.nextInt(width - 64), -10, this);
+                if (!player.isFullDed())
+                    new Enemy(random.nextInt(width - 64), -10, this);
                 ticks = 0;
                 timer = 0;
             }
@@ -107,8 +111,6 @@ public class Game
     // update game
     private void update()
     {
-        if (player.isFullDed())
-            return;
         input.update();
 
         for (itToAdd = toAdd.listIterator(); itToAdd.hasNext();) // if we don't use an iterator and a separate list, we will get the
@@ -143,7 +145,7 @@ public class Game
 
         // gui
 
-        Text.drawString(g, "SCORE: " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, "SCORE: " + player.getScore() + " " + player.getKillstreak(), 0, height - 28, false, Color.WHITE, assets.cs28);
 
         // stop drawing
         bs.show();
