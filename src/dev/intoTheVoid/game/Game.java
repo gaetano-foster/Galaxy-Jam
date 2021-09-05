@@ -10,6 +10,7 @@ import dev.intoTheVoid.game.io.Display;
 import dev.intoTheVoid.game.io.Input;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class Game
     private Graphics g;
     private Assets assets;
     private BufferedImage scrollingSky, scrollingSky2; // for the sky
+    private int skyY, skyY1;
+    private int gameOverY;
+    private boolean gameOver;
 
     // entities
     private ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -49,7 +53,6 @@ public class Game
     private ListIterator<Entity> it;
     private ListIterator<Entity> itToAdd;
     private Player player;
-    private Enemy enemy;
     private Random random = new Random();
 
     // variables will be used to create the display
@@ -68,9 +71,19 @@ public class Game
         display = new Display(width, height, title);
         display.addInput(input); // the marriage (can you tell I just woke up)
         assets.loadAssets();
+        initGameStuff();
+    }
+
+    private void initGameStuff()
+    {
         it = entities.listIterator();
         player = new Player(this);
-        //scrollingSky = FileLoader.loadImage("")
+        scrollingSky = FileLoader.loadImage("/textures/sky.png");
+        scrollingSky2 = scrollingSky;
+        skyY = 0;
+        skyY1 = -height;
+        gameOverY = -height / 3;
+        gameOver = false;
     }
 
     private void run()
@@ -122,8 +135,38 @@ public class Game
         for (it = entities.listIterator(); it.hasNext();)
         {
             Entity e = it.next();
-            e.update();
+            if (gameOver)
+            {
+                it.remove();
+            }
+            else
+                e.update();
         }
+
+        // game over handling code
+        if ((input.keyJustDown(KeyEvent.VK_ENTER) || (input.keyJustDown(KeyEvent.VK_SPACE) || (input.keyJustDown(KeyEvent.VK_Z)))) && gameOver)
+        {
+            player = new Player(this);
+        }
+
+        if (player.isDed())
+            gameOverY += 5;
+        else
+            gameOverY = -height / 3;
+        if (gameOverY >= height / 2)
+        {
+            gameOver = true;
+            gameOverY = height / 2;
+        }
+        else
+            gameOver = false;
+
+        skyY++;
+        skyY1++;
+        if (skyY > height)
+            skyY = -height;
+        if (skyY1 > height)
+            skyY1 = -height;
     }
 
     // draw updates
@@ -136,6 +179,8 @@ public class Game
         g.setColor(Color.black);
         g.fillRect( 0, 0, width, height);
         // draw stuff
+        g.drawImage(scrollingSky, 0, skyY, null);
+        g.drawImage(scrollingSky2, 0, skyY1, null);
 
         for (it = entities.listIterator(); it.hasNext();)
         {
@@ -145,7 +190,9 @@ public class Game
 
         // gui
 
-        Text.drawString(g, "SCORE: " + player.getScore() + " " + player.getKillstreak(), 0, height - 28, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, "FRAGS: " + player.getScore() + " " + player.getKillstreak(), 0, height - 28, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, "FRAGS: " + player.getScore() + " " + player.getKillstreak(), 0, height - 28, false, Color.WHITE, assets.cs28);
+        Text.drawString(g, "GAME OVER", width / 2, gameOverY, true, Color.WHITE, assets.cs64);
 
         // stop drawing
         bs.show();

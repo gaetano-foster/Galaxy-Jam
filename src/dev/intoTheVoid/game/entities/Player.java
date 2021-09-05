@@ -9,6 +9,7 @@ import dev.intoTheVoid.game.sfx.SoundPlayer;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.util.logging.Handler;
 
 public class Player extends Entity
 {
@@ -17,6 +18,7 @@ public class Player extends Entity
     private Animation[] animations;
     private Assets assets;
     private boolean attacking = false, atkAnim = false;
+    private float liveX, liveY;
     private long lastAttackTimer, attackCooldown = 400, attackTimer = attackCooldown;
     private boolean ded = false;
     private String killstreak = " ";
@@ -56,7 +58,8 @@ public class Player extends Entity
             animations[2].update();
             return;
         }
-
+        liveX = x;
+        liveY = y;
         x += xMove;
         if (x > game.getWidth())
             x = 0;
@@ -131,7 +134,8 @@ public class Player extends Entity
     {
         if (ded)
         {
-            g.drawImage(animations[2].getCurrentFrame(), (int)x, (int)y, (int)width, (int)height, null);
+            if (!isFullDed())
+                g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int)liveY, (int)width, (int)height, null);
         }
         else
             g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
@@ -144,6 +148,8 @@ public class Player extends Entity
             return;
         SoundPlayer.playSound("res/sounds/die.wav");
         ded = true; // self explanatory
+        setScore(0);
+        setKillstreak(" "); // reset killstreak
     }
 
     private BufferedImage getCurrentAnimationFrame()

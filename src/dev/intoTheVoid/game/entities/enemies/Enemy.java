@@ -114,7 +114,8 @@ public class Enemy extends Entity
     {
         if (ded)
         {
-            g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int)liveY, (int)width, (int)height, null);
+            if (!isFullDed())
+                g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int)liveY, (int)width, (int)height, null);
         }
         else
             g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
@@ -139,24 +140,24 @@ public class Enemy extends Entity
         score = game.getPlayer().getScore();
 
         // handle killstreaks
-        if (score >= 5 && score < 10)
+        if (score >= 10 && score < 20)
         {
             game.getPlayer().setKillstreak("(KILLING SPREE!)");
         }
-        else if (score >= 10 && score < 15)
+        else if (score >= 30 && score < 40)
         {
             game.getPlayer().setKillstreak("(UNSTOPPABLE!)");
         }
-        else if (score >= 15 && score < 20)
+        else if (score >= 50 && score < 60)
         {
             game.getPlayer().setKillstreak("(ON A RAMPAGE!)");
         }
-        else if (score >= 20)
+        else if (score >= 60)
         {
             game.getPlayer().setKillstreak("(GODLIKE!)");
         }
 
-        if (score % 5 == 0)
+        if (score % 10 == 0)
         {
             SoundPlayer.playSound("res/sounds/domination.wav");
         }

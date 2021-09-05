@@ -12,6 +12,7 @@ public class Assets
     private SpriteSheet sheet;
     private final int DEF_SIZE = 32;
     public Font cs28 = FontLoader.loadFont("res/fonts/comic-sans.ttf", 28);
+    public Font cs64 = FontLoader.loadFont("res/fonts/comic-sans.ttf", 64);
 
     /*
       * Loads all sprites into memory.
