@@ -80,6 +80,7 @@ public class Game
         skyY = 0;
         skyY1 = -height;
         initGameStuff();
+        display.getFrame().setIconImage(assets.getSprite("enemy00"));
         SoundPlayer.playSound("res/sounds/shoot.wav");
     }
 
