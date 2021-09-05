@@ -12,7 +12,7 @@ public class Meteor extends Projectile
 {
     public Meteor(float x, float y, Game game)
     {
-        super(game.getAssets().getSprite("projectile2"), x, y, defaultSize, defaultSize, game, 5, 1);
+        super(game.getAssets().getSprite("projectile2"), x, y, defaultSize, defaultSize, game, 8, 1);
         title = "mProj";
         bounds.x = 20;
         bounds.y = 15;

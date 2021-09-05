@@ -24,6 +24,7 @@ public class Player extends Entity
     private boolean ded = false;
     private String killstreak = " ";
     private int score;
+    private int speed;
 
     public Player(Game game)
     {
@@ -49,6 +50,7 @@ public class Player extends Entity
         score = 0;
         bounds = new Rectangle(16, 6, 32, 66);
         animations[2].looping = false;
+        speed = 6;
     }
 
     @Override
@@ -79,11 +81,11 @@ public class Player extends Entity
     {
         if (game.getInput().keyDown(KeyEvent.VK_D) || game.getInput().keyDown(KeyEvent.VK_RIGHT))
         {
-            xMove = 5;
+            xMove = speed;
         }
         else if (game.getInput().keyDown(KeyEvent.VK_A) || game.getInput().keyDown(KeyEvent.VK_LEFT))
         {
-            xMove = -5;
+            xMove = -speed;
         }
         else
         {
