@@ -10,29 +10,28 @@ import dev.intoTheVoid.game.sfx.SoundPlayer;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.util.logging.Handler;
 
-public class Player extends Entity
-{
+public class Player extends Entity {
     private float xMove;
-    private BufferedImage[][] anims;
-    private Animation[] animations;
-    private Assets assets;
-    private boolean attacking = false, atkAnim = false;
+    private final Animation[] animations;
+    private boolean atkAnim = false;
     private float liveX, liveY;
-    private long lastAttackTimer, attackCooldown = 400, attackTimer = attackCooldown;
-    private boolean ded = false;
+    private long lastAttackTimer;
+    private final long attackCooldown = 450;
+    private long attackTimer = attackCooldown;
+    private boolean dead = false;
     private String killstreak = " ";
     private int score;
-    private int speed;
 
-    public Player(Game game)
-    {
+    public Player(Game game) {
         super(game.getWidth() / 2.0f, game.getHeight() - 140, defaultSize, defaultSize, game);
-        assets = game.getAssets();
-        title = "player";
+        Assets assets = game.getAssets();
+        id = "player";
         xMove = 0;
-        anims = new BufferedImage[][]
+        // idle animation
+        // firing animation
+        // ded
+        BufferedImage[][] anims = new BufferedImage[][]
                 {
                         {assets.getSprite("player00"), assets.getSprite("player01")}, // idle animation
                         {assets.getSprite("player02"), assets.getSprite("player02")}, // firing animation
@@ -50,14 +49,11 @@ public class Player extends Entity
         score = 0;
         bounds = new Rectangle(16, 6, 32, 66);
         animations[2].looping = false;
-        speed = 6;
     }
 
     @Override
-    public void update()
-    {
-        if (ded)
-        {
+    public void update() {
+        if (dead) {
             animations[2].update();
             return;
         }
@@ -70,62 +66,37 @@ public class Player extends Entity
             x = game.getWidth() - 64;
         getInput(); // gets input
         fire(); // test if you gotta shoot, and fire
-        for (Animation a : animations)
-        {
+        for (Animation a : animations) {
             if (a != animations[2])
                 a.update();
         }
     }
 
-    private void getInput()
-    {
-        if (game.getInput().keyDown(KeyEvent.VK_D) || game.getInput().keyDown(KeyEvent.VK_RIGHT))
-        {
-            xMove = speed;
-        }
-        else if (game.getInput().keyDown(KeyEvent.VK_A) || game.getInput().keyDown(KeyEvent.VK_LEFT))
-        {
-            xMove = -speed;
-        }
-        else
-        {
+    private void getInput() {
+        int SPEED = 6;
+        if (game.getInput().keyDown(KeyEvent.VK_D) || game.getInput().keyDown(KeyEvent.VK_RIGHT)) {
+            xMove = SPEED;
+        } else if (game.getInput().keyDown(KeyEvent.VK_A) || game.getInput().keyDown(KeyEvent.VK_LEFT)) {
+            xMove = -SPEED;
+        } else {
             xMove = 0;
         }
     }
 
-    private void fire()
-    {
-        // fun timer stuff
+    private void fire() {
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
 
-        if (attackTimer < 150)
-        {
-            atkAnim = true;
-        }
-        else
-        {
-            atkAnim = false;
-        }
-        if (attackTimer < attackCooldown)
-        {
-            attacking = true;
-            return;
-        }
-        else
-        {
-            attacking = false;
-        }
+        // made gun less spammable
+        atkAnim = attackTimer < attackCooldown;
 
-        // shoot boom boom haha
-        if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z))
-        {
+        if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z) && !atkAnim) {
             SoundPlayer.playSound("res/sounds/shoot.wav");
+            // I think firing 2 projectiles as opposed to 1 makes the game more unique and fun,
+            // and allows for more strategy
             new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
             new FriendlyProjectile(x + 15, y - 25, 12, 44, game); // left side
-        }
-        else
-        {
+        } else {
             return;
         }
 
@@ -133,72 +104,59 @@ public class Player extends Entity
     }
 
     @Override
-    public void render(Graphics g)
-    {
-        if (ded)
-        {
-            if (!isFullDed())
-                g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int)liveY, (int)width, (int)height, null);
-        }
-        else
-            g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
+    public void render(Graphics g) {
+        if (dead) {
+            if (!isDeathAnimOver())
+                g.drawImage(animations[2].getCurrentFrame(), (int) liveX, (int) liveY, (int) width, (int) height, null);
+        } else
+            g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, (int) width, (int) height, null);
 
-        //g.setColor(Color.YELLOW);
-        //g.drawRect((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
+        // debug
+        //drawHitBoxes(Color.cyan, g);
     }
 
     @Override
-    public void die()
-    {
-        if (ded)
+    public void die() {
+        if (dead)
             return;
-        SoundPlayer.playSound("res/sounds/die.wav");
-        ded = true; // self explanatory
+
+        dead = true;
+        bounds = new Rectangle(-1000, -1000, 1, 1);
         if (Integer.parseInt(game.getHighestScore()) < score)
-        {
             FileLoader.writeToFile("res/killstreak/highestkillstreak.txt", Integer.toString(score)); // write highest ks
-        }
+        SoundPlayer.playSound("res/sounds/die.wav");
         setScore(0);
         setKillstreak(" "); // reset killstreak
     }
 
-    private BufferedImage getCurrentAnimationFrame()
-    {
+    private BufferedImage getCurrentAnimationFrame() {
         if (atkAnim)
             return animations[1].getCurrentFrame();
         else
             return animations[0].getCurrentFrame();
     }
 
-    // useless
-    public boolean isDed()
-    {
-        return ded;
+    public boolean isDead() {
+        return dead;
     }
 
-    // useful
-    public boolean isFullDed()
-    {
+    public boolean isDeathAnimOver() {
         return animations[2].isOver();
     }
 
-    public int getScore()
-    {
+    public int getScore() {
         return score;
     }
 
-    public void setScore(int score)
-    {
+    public void setScore(int score) {
         this.score = score;
     }
 
-    public String getKillstreak()
-    {
+    public String getKillstreak() {
         return killstreak;
     }
 
-    public void setKillstreak(String killstreak)
-    {
+    public void setKillstreak(String killstreak) {
         this.killstreak = killstreak;
     }
 }

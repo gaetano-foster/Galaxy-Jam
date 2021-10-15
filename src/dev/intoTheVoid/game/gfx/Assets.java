@@ -6,27 +6,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
-public class Assets
-{
-    private HashMap<String, BufferedImage> sprites = new HashMap<String, BufferedImage>(); // easy access to all sprites
-    private SpriteSheet sheet;
-    private final int DEF_SIZE = 32;
+public class Assets {
+    private final HashMap<String, BufferedImage> sprites = new HashMap<>(); // easy access to all sprites
     public Font cs28 = FontLoader.loadFont("res/fonts/arcade-classic.ttf", 28);
     public Font cs64 = FontLoader.loadFont("res/fonts/arcade-classic.ttf", 64);
 
-    /*
-      * Loads all sprites into memory.
-      * maybe there is a more efficient way of doing this,
-      * like dynamically loading sprites into memory
-      * as needed, but this is easier,
-      * and the performance increase would surely be
-      * miniscule for such a small game.
-     */
-    public void loadAssets()
-    {
-        sheet = new SpriteSheet("/textures/spriteSheet.png");
+    public void loadAssets() {
+        SpriteSheet sheet = new SpriteSheet("/textures/spriteSheet.png");
 
         // player alive
+        int DEF_SIZE = 32;
         sprites.put("player00", sheet.crop(0, 0, 1, 1, DEF_SIZE));
         sprites.put("player01", sheet.crop(1, 0, 1, 1, DEF_SIZE));
         sprites.put("player02", sheet.crop(2, 0, 1, 1, DEF_SIZE));
@@ -56,21 +45,13 @@ public class Assets
         sprites.put("projectile0", sheet.crop(3, 0, 1, 1, DEF_SIZE)); // friendly
         sprites.put("projectile1", sheet.crop(3, 1, 1, 1, DEF_SIZE)); // enemy
         sprites.put("projectile2", sheet.crop(4, 2, 1, 1, DEF_SIZE)); // meteor
+        sprites.put("projectile2d", sheet.crop(4, 3, 1, 1, DEF_SIZE)); // meteor death
 
         // power up
         sprites.put("shield", sheet.crop(3, 4, 1, 1, DEF_SIZE)); // bubble
     }
 
-    public BufferedImage getSprite(String key)
-    {
+    public BufferedImage getSprite(String key) {
         return sprites.get(key);
-    }
-
-    public void setSprite(String key, BufferedImage bufferedImage)
-    {
-        if (sprites.get(key) != null)
-            sprites.replace(key, bufferedImage);
-        else
-            sprites.put(key, bufferedImage);
     }
 }

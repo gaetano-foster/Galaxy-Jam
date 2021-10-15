@@ -1,72 +1,58 @@
 package dev.intoTheVoid.game.io;
 
+
 import java.awt.event.*;
 
-public class Input implements KeyListener, MouseListener, MouseMotionListener
-{
+public class Input implements KeyListener, MouseListener, MouseMotionListener {
     private boolean[] keys, justPressed, cantPress;
 
     private boolean leftPressed, rightPressed, leftJustPressed, rightJustPressed, leftCantPress, rightCantPress;
     private int mouseX, mouseY;
 
-    public Input()
-    {
+    public Input() {
         keys = new boolean[256];
         justPressed = new boolean[keys.length];
         cantPress = new boolean[keys.length];
     }
 
-    public void update()
-    {
+    public void update() {
         // makes sure that you only pressed button once, so you can't just spam the gun by holding space
-        for (int i = 0; i < keys.length; i++)
-        {
-            if (cantPress[i] && !keys[i])
-            {
+        for (int i = 0; i < keys.length; i++) {
+            if (cantPress[i] && !keys[i]) {
                 cantPress[i] = false;
-            } else if (justPressed[i])
-            {
+            } else if (justPressed[i]) {
                 cantPress[i] = true;
                 justPressed[i] = false;
             }
-            if (!cantPress[i] && keys[i])
-            {
+            if (!cantPress[i] && keys[i]) {
                 justPressed[i] = true;
             }
         }
 
-        if (leftCantPress && !leftPressed)
-        {
+        if (leftCantPress && !leftPressed) {
             leftCantPress = false;
-        } else if (leftJustPressed)
-        {
+        } else if (leftJustPressed) {
             leftCantPress = true;
             leftJustPressed = false;
         }
-        if (!leftCantPress && leftPressed)
-        {
+        if (!leftCantPress && leftPressed) {
             leftJustPressed = true;
         }
 
-        if (rightCantPress && !rightPressed)
-        {
+        if (rightCantPress && !rightPressed) {
             rightCantPress = false;
-        } else if (rightJustPressed)
-        {
+        } else if (rightJustPressed) {
             rightCantPress = true;
             rightJustPressed = false;
         }
-        if (!rightCantPress && rightPressed)
-        {
+        if (!rightCantPress && rightPressed) {
             rightJustPressed = true;
         }
     }
 
     @Override
-    public void keyPressed(KeyEvent e)
-    {
-        if (e.getKeyCode() < 0 || e.getKeyCode() > keys.length)
-        {
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() < 0 || e.getKeyCode() > keys.length) {
             System.err.println("Key out of bounds!");
             return;
         }
@@ -75,10 +61,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void keyReleased(KeyEvent e)
-    {
-        if (e.getKeyCode() < 0 || e.getKeyCode() > keys.length)
-        {
+    public void keyReleased(KeyEvent e) {
+        if (e.getKeyCode() < 0 || e.getKeyCode() > keys.length) {
             System.err.println("Key out of bounds!");
             return;
         }
@@ -87,15 +71,12 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void keyTyped(KeyEvent e)
-    {
+    public void keyTyped(KeyEvent e) {
 
     }
 
-    public boolean keyJustDown(int keyCode)
-    {
-        if (keyCode < 0 || keyCode > keys.length)
-        {
+    public boolean keyJustDown(int keyCode) {
+        if (keyCode < 0 || keyCode > keys.length) {
             System.err.println("Key out of bounds!");
             return false;
         }
@@ -103,10 +84,8 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
         return justPressed[keyCode];
     }
 
-    public boolean keyDown(int keyCode)
-    {
-        if (keyCode < 0 || keyCode > keys.length)
-        {
+    public boolean keyDown(int keyCode) {
+        if (keyCode < 0 || keyCode > keys.length) {
             System.err.println("Key out of bounds!");
             return false;
         }
@@ -114,50 +93,41 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
         return keys[keyCode];
     }
 
-    public boolean[] getKeys()
-    {
+    public boolean[] getKeys() {
         return keys;
     }
 
-    public boolean isLeftJustPressed()
-    {
+    public boolean isLeftJustPressed() {
         return leftJustPressed;
     }
 
-    public boolean isRightJustPressed()
-    {
+    public boolean isRightJustPressed() {
         return rightJustPressed;
     }
 
-    public boolean isLeftPressed()
-    {
+    public boolean isLeftPressed() {
         return leftPressed;
     }
 
-    public boolean isRightPressed()
-    {
+    public boolean isRightPressed() {
         return rightPressed;
     }
 
-    public int getMouseX()
-    {
+    public int getMouseX() {
         return mouseX;
     }
 
-    public int getMouseY()
-    {
+    public int getMouseY() {
         return mouseY;
     }
 
     @Override
-    public void mouseClicked(MouseEvent e)
-    {
+    public void mouseClicked(MouseEvent e) {
 
     }
 
     @Override
-    public void mousePressed(MouseEvent e)
-    {
+    public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1)
             leftPressed = true;
         else if (e.getButton() == MouseEvent.BUTTON3)
@@ -165,8 +135,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseReleased(MouseEvent e)
-    {
+    public void mouseReleased(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1)
             leftPressed = false;
         else if (e.getButton() == MouseEvent.BUTTON3)
@@ -174,27 +143,23 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener
     }
 
     @Override
-    public void mouseEntered(MouseEvent e)
-    {
+    public void mouseEntered(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseExited(MouseEvent e)
-    {
+    public void mouseExited(MouseEvent e) {
 
     }
 
     @Override
-    public void mouseDragged(MouseEvent e)
-    {
+    public void mouseDragged(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
     }
 
     @Override
-    public void mouseMoved(MouseEvent e)
-    {
+    public void mouseMoved(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
     }

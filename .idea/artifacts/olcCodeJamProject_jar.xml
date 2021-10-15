@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="olcCodeJamProject:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/olcCodeJamProject_jar</output-path>
+    <root id="archive" name="olcCodeJamProject.jar">
+      <element id="module-output" name="olcCodeJamProject" />
+    </root>
+  </artifact>
+</component>
