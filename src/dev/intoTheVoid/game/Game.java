@@ -191,9 +191,9 @@ public class Game {
     private void scrollSky() {
         skyY++;
         skyY1++;
-        if (skyY > 800)
+        if (skyY >= 800)
             skyY = -800;
-        if (skyY1 > 800)
+        if (skyY1 >= 800)
             skyY1 = -800;
     }
 
