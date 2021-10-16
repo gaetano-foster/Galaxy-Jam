@@ -8,7 +8,7 @@ public class SpriteSheet {
     private BufferedImage img; // the spritesheet itself
 
     public SpriteSheet(String path) {
-        img = FileLoader.loadImage(path); // simple
+        img = FileLoader.loadImage(path);
     }
 
     public BufferedImage crop(int x, int y, int width, int height, int def) {
