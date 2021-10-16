@@ -45,7 +45,10 @@ public class Assets {
         sprites.put("projectile0", sheet.crop(3, 0, 1, 1, DEF_SIZE)); // friendly
         sprites.put("projectile1", sheet.crop(3, 1, 1, 1, DEF_SIZE)); // enemy
         sprites.put("projectile2", sheet.crop(4, 2, 1, 1, DEF_SIZE)); // meteor
-        sprites.put("projectile2d", sheet.crop(4, 3, 1, 1, DEF_SIZE)); // meteor death
+
+        // ammo types
+        sprites.put("rocket", sheet.crop(4, 3, 1, 1, DEF_SIZE)); // rocket
+        sprites.put("cell", sheet.crop(4, 4, 1, 1, DEF_SIZE)); // cell
 
         // power up
         sprites.put("shield", sheet.crop(3, 4, 1, 1, DEF_SIZE)); // bubble
