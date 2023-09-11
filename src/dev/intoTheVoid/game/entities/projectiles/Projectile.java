@@ -2,6 +2,9 @@ package dev.intoTheVoid.game.entities.projectiles;
 
 import dev.intoTheVoid.game.Game;
 import dev.intoTheVoid.game.entities.Entity;
+import dev.intoTheVoid.game.entities.Player;
+import dev.intoTheVoid.game.entities.enemies.Enemy;
+import dev.intoTheVoid.game.entities.enemies.Meteor;
 import dev.intoTheVoid.game.sfx.SoundPlayer;
 
 import java.awt.*;
@@ -41,6 +44,9 @@ public abstract class Projectile extends Entity {
             yMove = 0;
 
         kill();
+        if (y > 800 || y < -20) {
+            die();
+        }
     }
 
     private void kill() {
@@ -58,12 +64,23 @@ public abstract class Projectile extends Entity {
                 // if player laser touches meteor
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("fProj") && this.id.equals("mProj")) {
                 getEntityAt(0, yMove).die();
-                SoundPlayer.playSound("res/sounds/die.wav");
-                // if player touches meteor
+                SoundPlayer.playSound("res/sounds/blunt.wav");
+                this.speed -= 4;
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("player") && this.id.equals("mProj")) {
                 game.getPlayer().die();
                 this.die();
-            } else
+            } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.id.equals("mProj") && this.speed < 0) {
+                getEntityAt(0, yMove).setBoom();
+                getEntityAt(0, yMove).die();
+                SoundPlayer.playSound("res/sounds/death.wav");
+                for (Entity e : game.getEntities()) {
+                    if (!e.getId().equals("player"))
+                        e.die();
+                }
+                
+                this.die();
+            }
+            else
                 y += yMove;
         }
     }
@@ -80,5 +97,13 @@ public abstract class Projectile extends Entity {
         if (!active)
             return;
         g.drawImage(sprite, (int) x, (int) y, (int) width, (int) height, null);
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public BufferedImage getSprite() {
+        return sprite;
     }
 }
