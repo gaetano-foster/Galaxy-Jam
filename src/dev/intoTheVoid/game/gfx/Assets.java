@@ -13,6 +13,7 @@ public class Assets {
 
     public void loadAssets() {
         SpriteSheet sheet = new SpriteSheet("/textures/spriteSheet.png");
+        BufferedImage boom = new SpriteSheet("/textures/boom.png").cropSpecific(0, 0, 1200, 1600);
 
         // player alive
         int DEF_SIZE = 32;
@@ -45,6 +46,8 @@ public class Assets {
         sprites.put("projectile0", sheet.crop(3, 0, 1, 1, DEF_SIZE)); // friendly
         sprites.put("projectile1", sheet.crop(3, 1, 1, 1, DEF_SIZE)); // enemy
         sprites.put("projectile2", sheet.crop(4, 2, 1, 1, DEF_SIZE)); // meteor
+        sprites.put("projectile3", sheet.crop(4, 1, 1, 1, DEF_SIZE)); // dead meteor
+        sprites.put("projectile4", sheet.crop(4, 0, 1, 1, DEF_SIZE)); // flipped meteor
 
         // ammo types
         sprites.put("rocket", sheet.crop(4, 3, 1, 1, DEF_SIZE)); // rocket
@@ -52,6 +55,9 @@ public class Assets {
 
         // power up
         sprites.put("shield", sheet.crop(3, 4, 1, 1, DEF_SIZE)); // bubble
+
+        // boom
+        sprites.put("boom", boom);
     }
 
     public BufferedImage getSprite(String key) {
