@@ -1,6 +1,7 @@
 package dev.intoTheVoid.game.entities;
 
 import dev.intoTheVoid.game.Game;
+import dev.intoTheVoid.game.entities.enemies.Meteor;
 import dev.intoTheVoid.game.entities.projectiles.FriendlyProjectile;
 import dev.intoTheVoid.game.gfx.Animation;
 import dev.intoTheVoid.game.gfx.Assets;
@@ -17,7 +18,7 @@ public class Player extends Entity {
     private boolean atkAnim = false;
     private float liveX, liveY;
     private long lastAttackTimer;
-    private final long attackCooldown = 450;
+    private final long attackCooldown = 400;
     private long attackTimer = attackCooldown;
     private boolean dead = false;
     private String killstreak = " ";
@@ -28,9 +29,6 @@ public class Player extends Entity {
         Assets assets = game.getAssets();
         id = "player";
         xMove = 0;
-        // idle animation
-        // firing animation
-        // ded
         BufferedImage[][] anims = new BufferedImage[][]
                 {
                         {assets.getSprite("player00"), assets.getSprite("player01")}, // idle animation
@@ -42,7 +40,7 @@ public class Player extends Entity {
         animations = new Animation[]
                 {
                         new Animation(100, anims[0]),
-                        new Animation(200, anims[1]),
+                        new Animation(100, anims[1]),
                         new Animation(150, anims[2])
                 };
 
@@ -63,9 +61,9 @@ public class Player extends Entity {
         if (x > game.getWidth())
             x = 0;
         else if (x < -64)
-            x = game.getWidth() - 64;
-        getInput(); // gets input
-        fire(); // test if you gotta shoot, and fire
+            x = game.getWidth();
+        getInput();
+        fire();
         for (Animation a : animations) {
             if (a != animations[2])
                 a.update();
@@ -89,13 +87,14 @@ public class Player extends Entity {
 
         // made gun less spammable
         atkAnim = attackTimer < attackCooldown;
+        if (atkAnim)
+            return;
 
-        if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z) && !atkAnim) {
+        if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z)) {
             SoundPlayer.playSound("res/sounds/shoot.wav");
-            // I think firing 2 projectiles as opposed to 1 makes the game more unique and fun,
-            // and allows for more strategy
             new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
             new FriendlyProjectile(x + 15, y - 25, 12, 44, game); // left side
+            //new Meteor(x, y - height, -8, game, game.getAssets().getSprite("rocket"));
         } else {
             return;
         }
@@ -110,9 +109,6 @@ public class Player extends Entity {
                 g.drawImage(animations[2].getCurrentFrame(), (int) liveX, (int) liveY, (int) width, (int) height, null);
         } else
             g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, (int) width, (int) height, null);
-
-        // debug
-        //drawHitBoxes(Color.cyan, g);
     }
 
     @Override
@@ -124,7 +120,7 @@ public class Player extends Entity {
         bounds = new Rectangle(-1000, -1000, 1, 1);
         if (Integer.parseInt(game.getHighestScore()) < score)
             FileLoader.writeToFile("res/killstreak/highestkillstreak.txt", Integer.toString(score)); // write highest ks
-        SoundPlayer.playSound("res/sounds/die.wav");
+        SoundPlayer.playSound("res/sounds/death.wav");
         setScore(0);
         setKillstreak(" "); // reset killstreak
     }
