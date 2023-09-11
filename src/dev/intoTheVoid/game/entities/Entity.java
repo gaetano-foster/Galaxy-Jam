@@ -11,6 +11,7 @@ public abstract class Entity {
     protected boolean active = true;
     protected Game game;
     protected String id;
+    protected boolean boom = false;
 
     public Entity(float x, float y, float width, float height, Game game) {
         this.game = game;
@@ -66,7 +67,7 @@ public abstract class Entity {
     }
 
     protected void drawHitBoxes(Color color, Graphics g) {
-        g.setColor(Color.YELLOW);
+        g.setColor(color);
         g.drawRect((int)x + bounds.x, (int)y + bounds.y, bounds.width, bounds.height);
     }
 
@@ -116,5 +117,9 @@ public abstract class Entity {
 
     public String getId() {
         return id;
+    }
+
+    public void setBoom() {
+        boom = true;
     }
 }
