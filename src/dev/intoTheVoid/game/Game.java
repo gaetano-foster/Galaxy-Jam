@@ -77,7 +77,9 @@ public class Game {
     long lastTime = System.nanoTime();
     long timer = 0;
     float ticks = 0;
-    private int i = 0;
+    final int SECOND = 1000000000;
+    int elapsedTime = 0;
+    int lastElapsed = 0;
 
     private void run() {
         init();
@@ -97,16 +99,9 @@ public class Game {
             }
 
             // reset ticks and timer, and show fps on window
-            if (timer >= 1000000000) {
+            if (timer >= SECOND) {
                 display.setTitle(display.getTitle() + " FPS: " + ticks);
-                if (!player.isDeathAnimOver()) {
-                    if (i == 1)
-                        new Meteor(RANDOM.nextInt(width - 64), -10, this);
-                    new Enemy(RANDOM.nextInt(width - 64), -10, this);
-                }
-                i++;
-                if (i == 2)
-                    i = 0;
+                elapsedTime++;
                 ticks = 0;
                 timer = 0;
             }
@@ -121,6 +116,16 @@ public class Game {
         sort();
         gameOver();
         scrollSky();
+        if (!player.isDeathAnimOver()) {
+            if (elapsedTime != lastElapsed) {
+                new Enemy(RANDOM.nextInt(width - 64), -10, this);
+                if (elapsedTime % 2 == 0) {
+                    new Meteor(RANDOM.nextInt(width - 64), -10, RANDOM.nextInt(8) + 4, this);
+                }
+
+                lastElapsed = elapsedTime;
+            }
+        }
 
         if ((input.keyJustDown(KeyEvent.VK_ENTER) || (input.keyJustDown(KeyEvent.VK_SPACE) || (input.keyJustDown(KeyEvent.VK_Z)))) && gameOver) {
             initGameStuff();
