@@ -33,34 +33,42 @@ public class Enemy extends Entity {
                         {assets.getSprite("enemy02"), assets.getSprite("enemy02")}, // firing animation
                         {assets.getSprite("enemy10"), assets.getSprite("enemy11"),
                                 assets.getSprite("enemy12"), assets.getSprite("enemy13"),
-                                assets.getSprite("enemy14"), assets.getSprite("enemy15")}  // ded
+                                assets.getSprite("enemy14"), assets.getSprite("enemy15")},// ded
+                        {assets.getSprite("boom"), assets.getSprite("boom")}
                 };
 
         animations = new Animation[]
                 {
                         new Animation(100, anims[0]),
                         new Animation(200, anims[1]),
-                        new Animation(150, anims[2])
+                        new Animation(150, anims[2]),
+                        new Animation(300, anims[3])
                 };
         id = "enemy";
 
         bounds = new Rectangle(16, 6, 32, 66);
         animations[2].looping = false;
+        animations[3].looping = false;
     }
 
     @Override
     public void update() {
         if (dead) {
             animations[2].update();
+            if (boom) {
+                animations[3].update();
+            }
             return;
+        }
+        if (y > 800) {
+            die();
         }
         liveX = x;
         liveY = y;
-        float yMove = SPEED;
-        y += yMove;
+        y += (float) SPEED;
         fire();
         for (Animation a : animations) {
-            if (a != animations[2])
+            if (a != animations[2] && a != animations[3])
                 a.update();
         }
     }
@@ -85,21 +93,33 @@ public class Enemy extends Entity {
     @Override
     public void render(Graphics g) {
         if (dead) {
-            if (!isDeathAnimOver())
-                g.drawImage(animations[2].getCurrentFrame(), (int) liveX, (int) liveY, (int) width, (int) height, null);
+            if (!isDeathAnimOver()) {
+                g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int) liveY, (int) width, (int) height, null);
+            }
+            if (boom && !animations[3].isOver()) {
+                g.drawImage(animations[3].getCurrentFrame(), (int)liveX - (int)(600 - width / 2), (int)liveY - (int)(800 - height / 2), 1200, 1600, null);
+            }
         } else
-            g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, (int) width, (int) height, null);
+            g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
     }
 
     @Override
     public void die() {
         if (dead)
             return;
-        SoundPlayer.playSound("res/sounds/hit.wav");
-        x = 42069; // the funny
+
+        if (checkEntityTitle(0, SPEED).equalsIgnoreCase("mProj")) {
+            boom = true;
+        }
+
+        if (y < 800) {
+            SoundPlayer.playSound("res/sounds/hit.wav");
+            addScore();
+        }
+
+        x = 42069;
         y = 42069;
         dead = true;
-        addScore();
     }
 
     private void addScore() {
@@ -115,14 +135,18 @@ public class Enemy extends Entity {
         } else if (score >= 30 && score < 40) {
             game.getPlayer().setKillstreak("TOO LEGIT TO QUIT!");
         } else if (score >= 40 && score < 50) {
-            game.getPlayer().setKillstreak("ON A RAMPAGE!");
+            game.getPlayer().setKillstreak("RAMPAGE!");
         } else if (score >= 50 && score < 100) {
             game.getPlayer().setKillstreak("GODLIKE!");
         } else if (score >= 100) {
-            game.getPlayer().setKillstreak("THE SLAYER!");
+            game.getPlayer().setKillstreak("TOP G!");
         }
 
         if (score % 10 == 0) {
+            if (score % 100 == 0) {
+                SoundPlayer.playSound("res/sounds/the-slayer.wav");
+                return;
+            }
             SoundPlayer.playSound("res/sounds/domination.wav");
         }
     }
