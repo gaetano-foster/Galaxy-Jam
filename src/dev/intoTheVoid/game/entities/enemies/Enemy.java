@@ -61,7 +61,7 @@ public class Enemy extends Entity {
             }
             return;
         }
-        if (y > 800) {
+        if (y > game.getHeight()) {
             die();
         }
         liveX = x;
@@ -114,7 +114,7 @@ public class Enemy extends Entity {
                 g.drawImage(animations[2].getCurrentFrame(), (int)liveX, (int) liveY, (int) width, (int) height, null);
             }
             if (boom && !animations[3].isOver()) {
-                g.drawImage(animations[3].getCurrentFrame(), (int)liveX - (int)(600 - width / 2), (int)liveY - (int)(800 - height / 2), 1200, 1600, null);
+                g.drawImage(animations[3].getCurrentFrame(), (int)liveX - (int)(game.getWidth() - width / 2), (int)liveY - (int)(game.getHeight() - height / 2), animations[3].getCurrentFrame().getWidth(), animations[3].getCurrentFrame().getHeight(), null);
             }
         } else
             g.drawImage(getCurrentAnimationFrame(), (int)x, (int)y, (int)width, (int)height, null);
@@ -129,7 +129,7 @@ public class Enemy extends Entity {
             boom = true;
         }
 
-        if (y < 800) {
+        if (y < game.getHeight()) {
             SoundPlayer.playSound("res/sounds/hit.wav");
             addScore();
         }

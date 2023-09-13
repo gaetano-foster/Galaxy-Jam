@@ -44,7 +44,7 @@ public abstract class Projectile extends Entity {
             yMove = 0;
 
         kill();
-        if (y > 800 || y < -20) {
+        if (y > game.getHeight() || y < -20) {
             die();
         }
     }

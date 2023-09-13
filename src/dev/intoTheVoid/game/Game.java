@@ -60,7 +60,7 @@ public class Game {
         scrollingSky = FileLoader.loadImage("/textures/sky.png");
         scrollingSky2 = scrollingSky;
         skyY = 0;
-        skyY1 = -800;
+        skyY1 = -height;
         initGameStuff();
     }
 
@@ -199,10 +199,10 @@ public class Game {
     private void scrollSky() {
         skyY += scrollSpeed;
         skyY1 += scrollSpeed;
-        if (skyY >= 800)
-            skyY = -800;
-        if (skyY1 >= 800)
-            skyY1 = -800;
+        if (skyY >= height)
+            skyY = -height;
+        if (skyY1 >= height)
+            skyY1 = -height;
     }
 
     private void gameOver() {
