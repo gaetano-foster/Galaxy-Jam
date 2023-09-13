@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 
 public class Player extends Entity {
     private float xMove;
+    public static final int SPEED = 6;
     private final Animation[] animations;
     private boolean atkAnim = false;
     private float liveX, liveY;
@@ -71,7 +72,7 @@ public class Player extends Entity {
     }
 
     private void getInput() {
-        int SPEED = 6;
+
         if (game.getInput().keyDown(KeyEvent.VK_D) || game.getInput().keyDown(KeyEvent.VK_RIGHT)) {
             xMove = SPEED;
         } else if (game.getInput().keyDown(KeyEvent.VK_A) || game.getInput().keyDown(KeyEvent.VK_LEFT)) {
@@ -154,5 +155,9 @@ public class Player extends Entity {
 
     public void setKillstreak(String killstreak) {
         this.killstreak = killstreak;
+    }
+
+    public float getXMove() {
+        return xMove;
     }
 }
