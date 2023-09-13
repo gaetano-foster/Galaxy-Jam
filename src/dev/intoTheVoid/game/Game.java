@@ -25,6 +25,7 @@ public class Game {
     private int width, height;
     private String title;
     private Display display;
+    private int scrollSpeed = 2;
     private Input input;
     private boolean running = false;
     private BufferStrategy bs;
@@ -78,7 +79,7 @@ public class Game {
     long timer = 0;
     float ticks = 0;
     final int SECOND = 1000000000;
-    int elapsedTime = 0;
+    float elapsedTime = 0;
     int lastElapsed = 0;
 
     private void run() {
@@ -99,9 +100,9 @@ public class Game {
             }
 
             // reset ticks and timer, and show fps on window
-            if (timer >= SECOND) {
-                display.setTitle(display.getTitle() + " FPS: " + ticks);
-                elapsedTime++;
+            if (timer >= SECOND/4) {
+                display.setTitle(display.getTitle() + " FPS: " + ticks*4);
+                elapsedTime += .25f;
                 ticks = 0;
                 timer = 0;
             }
@@ -116,14 +117,16 @@ public class Game {
         sort();
         gameOver();
         scrollSky();
+        int nElapsedTime = (int)Math.floor(elapsedTime);
+
         if (!player.isDeathAnimOver()) {
-            if (elapsedTime != lastElapsed) {
+            if (nElapsedTime != lastElapsed) {
                 new Enemy(RANDOM.nextInt(width - 64), -10, this);
-                if (elapsedTime % 2 == 0) {
+                if (nElapsedTime % 2 == 0) {
                     new Meteor(RANDOM.nextInt(width - 64), -10, RANDOM.nextInt(8) + 4, this);
                 }
 
-                lastElapsed = elapsedTime;
+                lastElapsed = nElapsedTime;
             }
         }
 
@@ -194,8 +197,8 @@ public class Game {
     }
 
     private void scrollSky() {
-        skyY++;
-        skyY1++;
+        skyY += scrollSpeed;
+        skyY1 += scrollSpeed;
         if (skyY >= 800)
             skyY = -800;
         if (skyY1 >= 800)
@@ -256,5 +259,9 @@ public class Game {
 
     public String getHighestScore() {
         return highestScore;
+    }
+
+    public float getElapsedTime() {
+        return elapsedTime;
     }
 }
