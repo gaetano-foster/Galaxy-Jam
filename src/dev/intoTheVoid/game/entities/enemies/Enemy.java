@@ -2,6 +2,7 @@ package dev.intoTheVoid.game.entities.enemies;
 
 import dev.intoTheVoid.game.Game;
 import dev.intoTheVoid.game.entities.Entity;
+import dev.intoTheVoid.game.entities.Player;
 import dev.intoTheVoid.game.entities.projectiles.EnemyProjectile;
 import dev.intoTheVoid.game.gfx.Animation;
 import dev.intoTheVoid.game.gfx.Assets;
@@ -73,20 +74,36 @@ public class Enemy extends Entity {
         }
     }
 
+    int projPPS = 60 * EnemyProjectile.SPEED;
+    int playerPPS = 60 * Player.SPEED;
+    float distToPlayer = 0, lastDistToPlayer = 0;
     private void fire() {
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
 
         atkAnim = attackTimer < attackCooldown;
 
-        if (new Rectangle((int) game.getPlayer().getBounds().x + (int) game.getPlayer().getX(), (int) game.getPlayer().getBounds().y + (int) game.getPlayer().getY(), game.getPlayer().getBounds().width, game.getPlayer().getBounds().height).intersects((int) this.x - 9, (int) this.y, (int) width + 15, game.getHeight()) && !atkAnim) {
+        distToPlayer = Math.abs(game.getPlayer().getX() - x);
+        Rectangle playerHitbox = new Rectangle(game.getPlayer().getBounds().x + (int)game.getPlayer().getX(), game.getPlayer().getBounds().y + (int)game.getPlayer().getY(), game.getPlayer().getBounds().width, game.getPlayer().getBounds().height);
+
+        float projTravelTime = ((game.getHeight()) - y) / projPPS;
+        float playerTravelTime = distToPlayer / playerPPS;
+
+        if (!atkAnim
+                && (((float)(Math.round(projTravelTime*2))/2 == (float)(Math.round(playerTravelTime*2))/2 && distToPlayer < lastDistToPlayer)
+                    || (Math.round(projTravelTime) == Math.round(playerTravelTime) && distToPlayer < lastDistToPlayer)
+                    || playerHitbox.intersects((int) this.x - 9, (int) this.y, (int) width + 15, game.getHeight()))) {
+
             SoundPlayer.playSound("res/sounds/eshoot.wav");
-            new EnemyProjectile(x + width - 25, y + 25, 12, 44, game); // right side
-            new EnemyProjectile(x + 15, y + 25, 12, 44, game); // left side
-        } else {
+            new EnemyProjectile(x + width - 25, y + 25, 12, 44, game);
+            new EnemyProjectile(x + 15, y + 25, 12, 44, game);
+        }
+        else {
+            lastDistToPlayer = distToPlayer;
             return;
         }
 
+        lastDistToPlayer = distToPlayer;
         attackTimer = 0;
     }
 
