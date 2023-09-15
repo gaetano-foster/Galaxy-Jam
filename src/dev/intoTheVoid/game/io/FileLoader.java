@@ -2,11 +2,15 @@ package dev.intoTheVoid.game.io;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class FileLoader {
     public static BufferedImage loadImage(String path) {
@@ -20,19 +24,15 @@ public class FileLoader {
 
     // gets contents of a file
     public static String loadFileAsString(String path, Charset encoding) {
-        byte[] encoded = new byte[0];
-        try {
-            encoded = Files.readAllBytes(Paths.get(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new String(encoded, encoding);
+        return new Scanner(FileLoader.class.getResourceAsStream(path), "UTF-8").useDelimiter("\\A").next();
     }
 
     // writes to file, replacing existing characters in the process
     public static void writeToFile(String path, String contents) {
         try {
-            FileWriter myWriter = new FileWriter(path);
+            PrintWriter myWriter =
+                    new PrintWriter(
+                            new File(FileLoader.class.getResource(path).getPath()));
             myWriter.write(contents);
             myWriter.close();
         } catch (IOException e) {

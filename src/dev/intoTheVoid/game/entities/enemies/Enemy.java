@@ -94,7 +94,7 @@ public class Enemy extends Entity {
                     || (Math.round(projTravelTime) == Math.round(playerTravelTime) && distToPlayer < lastDistToPlayer)
                     || playerHitbox.intersects((int) this.x - 9, (int) this.y, (int) width + 15, game.getHeight()))) {
 
-            SoundPlayer.playSound("res/sounds/eshoot.wav");
+            SoundPlayer.playSound("/res/sounds/eshoot.wav");
             new EnemyProjectile(x + width - 25, y + 25, 12, 44, game);
             new EnemyProjectile(x + 15, y + 25, 12, 44, game);
         }
@@ -130,7 +130,7 @@ public class Enemy extends Entity {
         }
 
         if (y < game.getHeight()) {
-            SoundPlayer.playSound("res/sounds/hit.wav");
+            SoundPlayer.playSound("/res/sounds/hit.wav");
             addScore();
         }
 
@@ -161,10 +161,10 @@ public class Enemy extends Entity {
 
         if (score % 10 == 0) {
             if (score % 100 == 0) {
-                SoundPlayer.playSound("res/sounds/the-slayer.wav");
+                SoundPlayer.playSound("/res/sounds/the-slayer.wav");
                 return;
             }
-            SoundPlayer.playSound("res/sounds/domination.wav");
+            SoundPlayer.playSound("/res/sounds/domination.wav");
         }
     }
 

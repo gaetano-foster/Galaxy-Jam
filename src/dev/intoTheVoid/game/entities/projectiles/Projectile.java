@@ -64,7 +64,7 @@ public abstract class Projectile extends Entity {
                 // if player laser touches meteor
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("fProj") && this.id.equals("mProj")) {
                 getEntityAt(0, yMove).die();
-                SoundPlayer.playSound("res/sounds/blunt.wav");
+                SoundPlayer.playSound("/res/sounds/blunt.wav");
                 this.speed -= 4;
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("player") && this.id.equals("mProj")) {
                 game.getPlayer().die();
@@ -72,7 +72,7 @@ public abstract class Projectile extends Entity {
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.id.equals("mProj") && this.speed < 0) {
                 getEntityAt(0, yMove).setBoom();
                 getEntityAt(0, yMove).die();
-                SoundPlayer.playSound("res/sounds/death.wav");
+                SoundPlayer.playSound("/res/sounds/death.wav");
                 for (Entity e : game.getEntities()) {
                     if (!e.getId().equals("player"))
                         e.die();

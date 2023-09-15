@@ -92,7 +92,7 @@ public class Player extends Entity {
             return;
 
         if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z)) {
-            SoundPlayer.playSound("res/sounds/shoot.wav");
+            SoundPlayer.playSound("/res/sounds/shoot.wav");
             new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
             new FriendlyProjectile(x + 15, y - 25, 12, 44, game); // left side
             //new Meteor(x, y - height, -8, game, game.getAssets().getSprite("rocket"));
@@ -120,8 +120,8 @@ public class Player extends Entity {
         dead = true;
         bounds = new Rectangle(-1000, -1000, 1, 1);
         if (Integer.parseInt(game.getHighestScore()) < score)
-            FileLoader.writeToFile("res/killstreak/highestkillstreak.txt", Integer.toString(score)); // write highest ks
-        SoundPlayer.playSound("res/sounds/death.wav");
+            FileLoader.writeToFile("/res/killstreak/highestkillstreak.txt", Integer.toString(score)); // write highest ks
+        SoundPlayer.playSound("/res/sounds/death.wav");
         setScore(0);
         setKillstreak(" "); // reset killstreak
     }

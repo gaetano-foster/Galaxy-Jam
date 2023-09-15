@@ -2,13 +2,23 @@ package dev.intoTheVoid.game.gfx;
 
 import dev.intoTheVoid.game.io.FileLoader;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class SpriteSheet {
     private BufferedImage img; // the spritesheet itself
 
     public SpriteSheet(String path) {
-        img = FileLoader.loadImage(path);
+        try {
+            if ((img = ImageIO.read((SpriteSheet.class.getResource(path)))) == null) {
+                System.exit(1);
+                throw new IOException();
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public BufferedImage crop(int x, int y, int width, int height, int def) {

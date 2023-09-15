@@ -3,12 +3,15 @@ package dev.intoTheVoid.game.fonts;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class FontLoader {
 
     public static Font loadFont(String path, float size) {
+        InputStream is = FontLoader.class.getResourceAsStream(path);
         try {
-            return Font.createFont(Font.TRUETYPE_FONT, new File(path)).deriveFont(Font.PLAIN, size);
+            Font f = Font.createFont(Font.TRUETYPE_FONT, is);
+            return f.deriveFont(Font.PLAIN, size);
         } catch (FontFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {

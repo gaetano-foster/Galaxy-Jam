@@ -49,7 +49,7 @@ public class Game {
     }
 
     private void init() {
-        SoundPlayer.playSound("res/sounds/hit.wav");
+
         assets = new Assets();
         assets.loadAssets();
         input = new Input();
@@ -57,18 +57,20 @@ public class Game {
         display.addInput(input);
         display.getFrame().setIconImage(assets.getSprite("enemy00"));
         it = entities.listIterator();
-        scrollingSky = FileLoader.loadImage("/textures/sky.png");
+        scrollingSky = FileLoader.loadImage("/res/textures/sky.png");
         scrollingSky2 = scrollingSky;
         skyY = 0;
         skyY1 = -height;
+
         initGameStuff();
+        SoundPlayer.playSound("/res/sounds/hit.wav");
     }
 
     private void initGameStuff() {
         player = new Player(this);
         gameOverY = -height / 3;
         gameOver = false;
-        highestScore = FileLoader.loadFileAsString("res/killstreak/highestkillstreak.txt", StandardCharsets.UTF_8);
+        highestScore = FileLoader.loadFileAsString("/res/killstreak/highestkillstreak.txt", StandardCharsets.UTF_8);
     }
 
     double delta = 0;

@@ -8,12 +8,12 @@ import java.util.HashMap;
 
 public class Assets {
     private final HashMap<String, BufferedImage> sprites = new HashMap<>(); // easy access to all sprites
-    public Font cs28 = FontLoader.loadFont("res/fonts/arcade-classic.ttf", 28);
-    public Font cs64 = FontLoader.loadFont("res/fonts/arcade-classic.ttf", 64);
+    public Font cs28 = FontLoader.loadFont("/res/fonts/arcade-classic.ttf", 28);
+    public Font cs64 = FontLoader.loadFont("/res/fonts/arcade-classic.ttf", 64);
 
     public void loadAssets() {
-        SpriteSheet sheet = new SpriteSheet("/textures/spriteSheet.png");
-        BufferedImage boom = new SpriteSheet("/textures/boom.png").cropSpecific(0, 0, 1200, 1600);
+        SpriteSheet sheet = new SpriteSheet("/res/textures/spriteSheet.png");
+        BufferedImage boom = new SpriteSheet("/res/textures/boom.png").cropSpecific(0, 0, 1200, 1600);
 
         // player alive
         int DEF_SIZE = 32;

@@ -1,24 +1,27 @@
 package dev.intoTheVoid.game.sfx;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class SoundPlayer
 {
     // plays a sound file
     public static void playSound(String soundFile)
     {
-        File f = new File("./" + soundFile);
+        InputStream is = SoundPlayer.class.getResourceAsStream(soundFile);
         AudioInputStream audioIn = null;
-        try
-        {
-            audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+        try {
+            assert is != null;
+            audioIn = AudioSystem.getAudioInputStream(new BufferedInputStream(is));
+        } catch (UnsupportedAudioFileException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        catch (UnsupportedAudioFileException | IOException e)
-        {
-            e.printStackTrace();
-        }
+
         Clip clip = null;
         try
         {
