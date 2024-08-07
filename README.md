@@ -15,4 +15,4 @@ Space bar/Z key - Shoot
 
 ## Demonstration
 
-[![Video Title](https://www.youtube.com/watch?v=K-bZw4eV2Rs/0.jpg)](https://www.youtube.com/watch?v=K-bZw4eV2Rs)
+[![Demonstration](https://www.youtube.com/vi/K-bZw4eV2Rs/0.jpg)](https://www.youtube.com/watch?v=K-bZw4eV2Rs)
