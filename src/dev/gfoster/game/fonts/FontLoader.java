@@ -1,7 +1,6 @@
-package dev.intoTheVoid.game.fonts;
+package dev.gfoster.game.fonts;
 
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 

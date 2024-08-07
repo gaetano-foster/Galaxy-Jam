@@ -1,6 +1,6 @@
-package dev.intoTheVoid.game.gfx;
+package dev.gfoster.game.gfx;
 
-import dev.intoTheVoid.game.fonts.FontLoader;
+import dev.gfoster.game.fonts.FontLoader;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

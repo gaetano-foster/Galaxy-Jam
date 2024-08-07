@@ -1,15 +1,15 @@
-package dev.intoTheVoid.game;
+package dev.gfoster.game;
 
-import dev.intoTheVoid.game.entities.Entity;
-import dev.intoTheVoid.game.entities.Player;
-import dev.intoTheVoid.game.entities.enemies.Enemy;
-import dev.intoTheVoid.game.entities.enemies.Meteor;
-import dev.intoTheVoid.game.gfx.Assets;
-import dev.intoTheVoid.game.io.FileLoader;
-import dev.intoTheVoid.game.gfx.Text;
-import dev.intoTheVoid.game.io.Display;
-import dev.intoTheVoid.game.io.Input;
-import dev.intoTheVoid.game.sfx.SoundPlayer;
+import dev.gfoster.game.entities.Entity;
+import dev.gfoster.game.entities.Player;
+import dev.gfoster.game.entities.enemies.Enemy;
+import dev.gfoster.game.entities.enemies.Meteor;
+import dev.gfoster.game.gfx.Assets;
+import dev.gfoster.game.io.FileLoader;
+import dev.gfoster.game.gfx.Text;
+import dev.gfoster.game.io.Display;
+import dev.gfoster.game.io.Input;
+import dev.gfoster.game.sfx.SoundPlayer;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

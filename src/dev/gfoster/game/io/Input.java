@@ -1,4 +1,4 @@
-package dev.intoTheVoid.game.io;
+package dev.gfoster.game.io;
 
 
 import java.awt.event.*;

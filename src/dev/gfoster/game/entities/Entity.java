@@ -1,6 +1,6 @@
-package dev.intoTheVoid.game.entities;
+package dev.gfoster.game.entities;
 
-import dev.intoTheVoid.game.Game;
+import dev.gfoster.game.Game;
 
 import java.awt.*;
 

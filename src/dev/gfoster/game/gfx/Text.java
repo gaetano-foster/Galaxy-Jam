@@ -1,4 +1,4 @@
-package dev.intoTheVoid.game.gfx;
+package dev.gfoster.game.gfx;
 
 import java.awt.*;
 

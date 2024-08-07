@@ -1,11 +1,8 @@
-package dev.intoTheVoid.game.gfx;
-
-import dev.intoTheVoid.game.io.FileLoader;
+package dev.gfoster.game.gfx;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Objects;
 
 public class SpriteSheet {
     private BufferedImage img; // the spritesheet itself

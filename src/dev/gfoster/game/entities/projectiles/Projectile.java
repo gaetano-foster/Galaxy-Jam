@@ -1,11 +1,8 @@
-package dev.intoTheVoid.game.entities.projectiles;
+package dev.gfoster.game.entities.projectiles;
 
-import dev.intoTheVoid.game.Game;
-import dev.intoTheVoid.game.entities.Entity;
-import dev.intoTheVoid.game.entities.Player;
-import dev.intoTheVoid.game.entities.enemies.Enemy;
-import dev.intoTheVoid.game.entities.enemies.Meteor;
-import dev.intoTheVoid.game.sfx.SoundPlayer;
+import dev.gfoster.game.Game;
+import dev.gfoster.game.entities.Entity;
+import dev.gfoster.game.sfx.SoundPlayer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

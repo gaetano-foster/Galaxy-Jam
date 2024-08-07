@@ -1,6 +1,4 @@
-package dev.intoTheVoid.game;
-
-import dev.intoTheVoid.game.io.Display;
+package dev.gfoster.game;
 
 public class Launcher {
     public static void main(String args[]) {

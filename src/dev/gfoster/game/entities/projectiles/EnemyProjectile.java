@@ -1,6 +1,6 @@
-package dev.intoTheVoid.game.entities.projectiles;
+package dev.gfoster.game.entities.projectiles;
 
-import dev.intoTheVoid.game.Game;
+import dev.gfoster.game.Game;
 
 public class EnemyProjectile extends Projectile {
     public static final int SPEED = 12;
