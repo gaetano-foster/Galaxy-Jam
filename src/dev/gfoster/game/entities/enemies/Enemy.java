@@ -146,24 +146,28 @@ public class Enemy extends Entity {
 
         // handle killstreaks
         if (score >= 10 && score < 20) {
-            game.getPlayer().setKillstreak("KILLING SPREE!");
+            game.getPlayer().setKillstreak("PRETTY GOOD!");
         } else if (score >= 20 && score < 30) {
-            game.getPlayer().setKillstreak("UNSTOPPABLE!");
-        } else if (score >= 30 && score < 40) {
-            game.getPlayer().setKillstreak("TOO LEGIT TO QUIT!");
-        } else if (score >= 40 && score < 50) {
             game.getPlayer().setKillstreak("RAMPAGE!");
-        } else if (score >= 50 && score < 100) {
-            game.getPlayer().setKillstreak("GODLIKE!");
+        } else if (score >= 30 && score < 40) {
+            game.getPlayer().setKillstreak("D1 COMMIT!");
+        } else if (score >= 40 && score < 50) {
+            game.getPlayer().setKillstreak("UNSTOPPABLE!");
+        } else if (score >= 50 && score < 60) {
+            game.getPlayer().setKillstreak("LEGENDARY!");
+        } else if (score >= 60 && score < 70) {
+            game.getPlayer().setKillstreak("HOLY GUACAMOLE!");
+        } else if (score >= 70 && score < 80) {
+            game.getPlayer().setKillstreak("TOO LEGIT TO QUIT!");
+        } else if (score >= 80 && score < 90) {
+            game.getPlayer().setKillstreak("WOOP WOOP!");
+        } else if (score >= 90 && score < 100) {
+            game.getPlayer().setKillstreak("YIPEE!");
         } else if (score >= 100) {
-            game.getPlayer().setKillstreak("TOP G!");
+            game.getPlayer().setKillstreak("congrats ig.");
         }
 
         if (score % 10 == 0) {
-            if (score % 100 == 0) {
-                SoundPlayer.playSound("/res/sounds/the-slayer.wav");
-                return;
-            }
             SoundPlayer.playSound("/res/sounds/domination.wav");
         }
     }

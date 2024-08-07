@@ -157,8 +157,8 @@ public class Game {
 
         Text.drawString(g, player.getKillstreak(), 0, height - 28 - 32, false, Color.WHITE, assets.cs28);
         if (gameOverY <= -height / 3) {
-            Text.drawString(g, "FRAGS ! " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
-            Text.drawString(g, "HIGHEST KILLSTREAK ! " + highestScore, width - 400, height - 28, false, Color.WHITE, assets.cs28);
+            Text.drawString(g, "SCORE ! " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
+            Text.drawString(g, "HIGHEST BOOMSTREAK ! " + highestScore, width - 400, height - 28, false, Color.WHITE, assets.cs28);
         }
         Text.drawString(g, "GAME OVER", width / 2, gameOverY, true, Color.WHITE, assets.cs64);
 
