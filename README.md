@@ -12,3 +12,7 @@ If you can time it right, hit a meteor to change its course. If it hits an alien
 
 Arrow keys/A & D keys - Move you left and right 
 Space bar/Z key - Shoot
+
+## Demonstration
+
+[![Video Title](https://www.youtube.com/watch?v=K-bZw4eV2Rs/0.jpg)](https://www.youtube.com/watch?v=K-bZw4eV2Rs)
