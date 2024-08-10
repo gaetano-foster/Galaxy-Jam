@@ -2,6 +2,7 @@ package dev.gfoster.game;
 
 import dev.gfoster.game.entities.Entity;
 import dev.gfoster.game.entities.Player;
+import dev.gfoster.game.entities.enemies.BoomShip;
 import dev.gfoster.game.entities.enemies.Enemy;
 import dev.gfoster.game.entities.enemies.Meteor;
 import dev.gfoster.game.gfx.Assets;
@@ -123,9 +124,21 @@ public class Game {
 
         if (!player.isDeathAnimOver()) {
             if (nElapsedTime != lastElapsed) {
-                new Enemy(RANDOM.nextInt(width - 64), -10, this);
+                if (player.getScore() < 50) {
+                    new Enemy(RANDOM.nextInt(width - 64), -10, this);
+                }
+                else {
+                    if (RANDOM.nextBoolean())
+                        new Enemy(RANDOM.nextInt(width - 64), -10, this);
+                    else
+                        new BoomShip(RANDOM.nextInt(width - 64), -10, this);
+                }
                 if (nElapsedTime % 2 == 0) {
                     new Meteor(RANDOM.nextInt(width - 64), -10, RANDOM.nextInt(8) + 4, this);
+                    if (player.getScore() > 10) {
+                        if (RANDOM.nextBoolean())
+                            new BoomShip(RANDOM.nextInt(width - 64), -10, this);
+                    }
                 }
 
                 lastElapsed = nElapsedTime;
@@ -157,8 +170,9 @@ public class Game {
 
         Text.drawString(g, player.getKillstreak(), 0, height - 28 - 32, false, Color.WHITE, assets.cs28);
         if (gameOverY <= -height / 3) {
+            Text.drawString(g, "ROCKETS ! " + player.getRockets(), width - 310, height - 56, false, Color.WHITE, assets.cs28);
             Text.drawString(g, "SCORE ! " + player.getScore(), 0, height - 28, false, Color.WHITE, assets.cs28);
-            Text.drawString(g, "HIGHEST BOOMSTREAK ! " + highestScore, width - 400, height - 28, false, Color.WHITE, assets.cs28);
+            Text.drawString(g, "HIGHEST BOOMSTREAK ! " + highestScore, width - 310, height - 28, false, Color.WHITE, assets.cs28);
         }
         Text.drawString(g, "GAME OVER", width / 2, gameOverY, true, Color.WHITE, assets.cs64);
 
