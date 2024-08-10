@@ -1,6 +1,7 @@
 package dev.gfoster.game.entities;
 
 import dev.gfoster.game.Game;
+import dev.gfoster.game.entities.enemies.Meteor;
 import dev.gfoster.game.entities.projectiles.FriendlyProjectile;
 import dev.gfoster.game.gfx.Animation;
 import dev.gfoster.game.gfx.Assets;
@@ -23,6 +24,7 @@ public class Player extends Entity {
     private boolean dead = false;
     private String killstreak = " ";
     private int score;
+    private int rockets;
 
     public Player(Game game) {
         super(game.getWidth() / 2.0f, game.getHeight() - 140, defaultSize, defaultSize, game);
@@ -35,24 +37,31 @@ public class Player extends Entity {
                         {assets.getSprite("player02"), assets.getSprite("player02")}, // firing animation
                         {assets.getSprite("player10"), assets.getSprite("player11"),
                                 assets.getSprite("player12"), assets.getSprite("player13"),
-                                assets.getSprite("player14"), assets.getSprite("player15")}  // ded
+                                assets.getSprite("player14"), assets.getSprite("player15")},  // ded
+                        {assets.getSprite("boom"), assets.getSprite("boom")}
                 };
         animations = new Animation[]
                 {
                         new Animation(100, anims[0]),
                         new Animation(100, anims[1]),
-                        new Animation(150, anims[2])
+                        new Animation(150, anims[2]),
+                        new Animation(600, anims[3])
                 };
 
         score = 0;
+        rockets = 0;
         bounds = new Rectangle(16, 6, 32, 66);
         animations[2].looping = false;
+        animations[3].looping = false;
     }
 
     @Override
     public void update() {
         if (dead) {
             animations[2].update();
+            if (boom) {
+                animations[3].update();
+            }
             return;
         }
         liveX = x;
@@ -65,7 +74,7 @@ public class Player extends Entity {
         getInput();
         fire();
         for (Animation a : animations) {
-            if (a != animations[2])
+            if (a != animations[2] && a != animations[3])
                 a.update();
         }
     }
@@ -81,6 +90,37 @@ public class Player extends Entity {
         }
     }
 
+    public void addScore() {
+        score += 1;
+
+        // handle killstreaks
+        if (score >= 10 && score < 20) {
+            game.getPlayer().setKillstreak("PRETTY GOOD!");
+        } else if (score >= 20 && score < 30) {
+            game.getPlayer().setKillstreak("RAMPAGE!");
+        } else if (score >= 30 && score < 40) {
+            game.getPlayer().setKillstreak("D1 COMMIT!");
+        } else if (score >= 40 && score < 50) {
+            game.getPlayer().setKillstreak("UNSTOPPABLE!");
+        } else if (score >= 50 && score < 60) {
+            game.getPlayer().setKillstreak("LEGENDARY!");
+        } else if (score >= 60 && score < 70) {
+            game.getPlayer().setKillstreak("HOLY GUACAMOLE!");
+        } else if (score >= 70 && score < 80) {
+            game.getPlayer().setKillstreak("TOO LEGIT TO QUIT!");
+        } else if (score >= 80 && score < 90) {
+            game.getPlayer().setKillstreak("WOOP WOOP!");
+        } else if (score >= 90 && score < 100) {
+            game.getPlayer().setKillstreak("YIPEE!");
+        } else if (score >= 100) {
+            game.getPlayer().setKillstreak("congrats ig.");
+        }
+
+        if (score % 10 == 0) {
+            SoundPlayer.playSound("/res/sounds/domination.wav");
+        }
+    }
+
     private void fire() {
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
@@ -91,10 +131,17 @@ public class Player extends Entity {
             return;
 
         if (game.getInput().keyJustDown(KeyEvent.VK_SPACE) || game.getInput().keyJustDown(KeyEvent.VK_Z)) {
-            SoundPlayer.playSound("/res/sounds/shoot.wav");
-            new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
-            new FriendlyProjectile(x + 15, y - 25, 12, 44, game); // left side
-            //new Meteor(x, y - height, -8, game, game.getAssets().getSprite("rocket"));
+            if (rockets <= 0) {
+                SoundPlayer.playSound("/res/sounds/shoot.wav");
+                new FriendlyProjectile(x + width - 25, y - 25, 12, 44, game); // right side
+                new FriendlyProjectile(x + 15, y - 25, 12, 44, game); // left side
+            }
+            else {
+                SoundPlayer.playSound("/res/sounds/blunt.wav");
+                new Meteor(x, y - height, -8, game, game.getAssets().getSprite("projectile5"));
+                rockets--;
+            }
+
         } else {
             return;
         }
@@ -107,6 +154,9 @@ public class Player extends Entity {
         if (dead) {
             if (!isDeathAnimOver())
                 g.drawImage(animations[2].getCurrentFrame(), (int) liveX, (int) liveY, (int) width, (int) height, null);
+            if (boom && !animations[3].isOver()) {
+                g.drawImage(animations[3].getCurrentFrame(), (int)liveX - (int)(game.getWidth() - width / 2), (int)liveY - (int)(game.getHeight() - height / 2), animations[3].getCurrentFrame().getWidth(), animations[3].getCurrentFrame().getHeight(), null);
+            }
         } else
             g.drawImage(getCurrentAnimationFrame(), (int) x, (int) y, (int) width, (int) height, null);
     }
@@ -130,6 +180,9 @@ public class Player extends Entity {
             return animations[1].getCurrentFrame();
         else
             return animations[0].getCurrentFrame();
+    }
+    public void giveRockets() {
+        rockets = 3;
     }
 
     public boolean isDead() {
@@ -158,5 +211,9 @@ public class Player extends Entity {
 
     public float getXMove() {
         return xMove;
+    }
+
+    public int getRockets() {
+        return rockets;
     }
 }
