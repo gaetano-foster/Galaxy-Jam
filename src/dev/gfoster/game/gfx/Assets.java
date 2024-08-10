@@ -21,7 +21,7 @@ public class Assets {
         sprites.put("player01", sheet.crop(1, 0, 1, 1, DEF_SIZE));
         sprites.put("player02", sheet.crop(2, 0, 1, 1, DEF_SIZE));
 
-        // player ded
+        // player dead
         sprites.put("player10", sheet.crop(0, 1, 1, 1, DEF_SIZE));
         sprites.put("player11", sheet.crop(1, 1, 1, 1, DEF_SIZE));
         sprites.put("player12", sheet.crop(2, 1, 1, 1, DEF_SIZE));
@@ -34,7 +34,7 @@ public class Assets {
         sprites.put("enemy01", sheet.crop(1, 3, 1, 1, DEF_SIZE));
         sprites.put("enemy02", sheet.crop(2, 3, 1, 1, DEF_SIZE));
 
-        // enemy ded
+        // enemy dead
         sprites.put("enemy10", sheet.crop(0, 3 + 1, 1, 1, DEF_SIZE));
         sprites.put("enemy11", sheet.crop(1, 3 + 1, 1, 1, DEF_SIZE));
         sprites.put("enemy12", sheet.crop(2, 3 + 1, 1, 1, DEF_SIZE));
@@ -42,16 +42,24 @@ public class Assets {
         sprites.put("enemy14", sheet.crop(1, 3 + 2, 1, 1, DEF_SIZE));
         sprites.put("enemy15", sheet.crop(2, 3 + 2, 1, 1, DEF_SIZE));
 
+        // big enemy alive
+        sprites.put("enemy20", sheet.crop(5, 0, 1, 1, DEF_SIZE));
+        sprites.put("enemy21", sheet.crop(6, 0, 1, 1, DEF_SIZE));
+        sprites.put("enemy22", sheet.crop(7, 0, 1, 1, DEF_SIZE));
+
+        // big enemy dead
+        sprites.put("enemy23", sheet.crop(5, 1, 1, 1, DEF_SIZE));
+        sprites.put("enemy24", sheet.crop(6, 1, 1, 1, DEF_SIZE));
+        sprites.put("enemy25", sheet.crop(7, 1, 1, 1, DEF_SIZE));
+
         // projectiles
         sprites.put("projectile0", sheet.crop(3, 0, 1, 1, DEF_SIZE)); // friendly
         sprites.put("projectile1", sheet.crop(3, 1, 1, 1, DEF_SIZE)); // enemy
         sprites.put("projectile2", sheet.crop(4, 2, 1, 1, DEF_SIZE)); // meteor
         sprites.put("projectile3", sheet.crop(4, 1, 1, 1, DEF_SIZE)); // dead meteor
         sprites.put("projectile4", sheet.crop(4, 0, 1, 1, DEF_SIZE)); // flipped meteor
-
-        // ammo types
-        sprites.put("rocket", sheet.crop(4, 3, 1, 1, DEF_SIZE)); // rocket
-        sprites.put("cell", sheet.crop(4, 4, 1, 1, DEF_SIZE)); // cell
+        sprites.put("projectile5", sheet.crop(4, 3, 1, 1, DEF_SIZE)); // rocket
+        sprites.put("projectile6", sheet.crop(4, 4, 1, 1, DEF_SIZE)); // flipped rocket
 
         // power up
         sprites.put("shield", sheet.crop(3, 4, 1, 1, DEF_SIZE)); // bubble
