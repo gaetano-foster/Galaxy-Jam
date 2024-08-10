@@ -11,14 +11,14 @@ import java.awt.image.BufferedImage;
 public class Meteor extends Projectile {
 
     private Assets assets;
-    private boolean meteor = true;
+    private boolean reflectable = true;
 
     public Meteor(float x, float y, int speed, Game game) {
         super(game.getAssets().getSprite("projectile2"), x, y, defaultSize, defaultSize, game, speed, 1);
         id = "mProj";
-        bounds.x = 20;
+        bounds.x = 18;
         bounds.y = 15;
-        bounds.width *= 2;
+        bounds.width = 24;
         assets = game.getAssets();
     }
 
@@ -29,7 +29,7 @@ public class Meteor extends Projectile {
         bounds.y = 15;
         bounds.width *= 2;
         assets = game.getAssets();
-        meteor = false;
+        reflectable = false;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Meteor extends Projectile {
     public void render(Graphics g) {
         if (!active)
             return;
-        if (meteor) {
+        if (reflectable) {
             if (getSpeed() > 0) {
                 g.drawImage(getSprite(), (int) x, (int) y, (int) width, (int) height, null);
             } else if (getSpeed() == 0) {
@@ -59,5 +59,9 @@ public class Meteor extends Projectile {
     @Override
     public void die() {
         super.die();
+    }
+
+    public boolean isReflectable() {
+        return reflectable;
     }
 }
