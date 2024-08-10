@@ -13,6 +13,8 @@ public abstract class Entity {
     protected String id;
     protected boolean boom = false;
 
+    protected int health = 3;
+
     public Entity(float x, float y, float width, float height, Game game) {
         this.game = game;
         this.x = x;
@@ -32,6 +34,10 @@ public abstract class Entity {
     public abstract void render(Graphics g);
 
     public abstract void die();
+
+    public void harm(int amount) {
+        health -= amount;
+    }
 
     public boolean checkEntityCollisions(float xOffset, float yOffset) {
         for (Entity e : game.getEntities()) {
@@ -121,5 +127,13 @@ public abstract class Entity {
 
     public void setBoom() {
         boom = true;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }

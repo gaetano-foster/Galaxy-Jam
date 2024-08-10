@@ -12,29 +12,27 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Enemy extends Entity {
-    private final Animation animations[];
-    private boolean atkAnim = false;
-    private boolean dead = false;
-    private float liveX = 0, liveY = 0;
-    private final long attackCooldown = 500;
-    private long lastAttackTimer = attackCooldown;
-    private long attackTimer = 0;
-    private final int SPEED = 5;
+    protected Animation animations[];
+    protected boolean atkAnim = false;
+    protected boolean dead = false;
+    protected float liveX = 0, liveY = 0;
+    protected long attackCooldown = 500;
+    protected long lastAttackTimer = attackCooldown;
+    protected long attackTimer = 0;
+    protected int speed = 5;
 
     public Enemy(float x, float y, Game game) {
         super(x, y, defaultSize, defaultSize, game);
         Assets assets = game.getAssets();
+        health = 1;
 
-        // idle animation
-        // firing animation
-        // ded
         BufferedImage anims[][] = new BufferedImage[][]
                 {
                         {assets.getSprite("enemy00"), assets.getSprite("enemy01")}, // idle animation
                         {assets.getSprite("enemy02"), assets.getSprite("enemy02")}, // firing animation
                         {assets.getSprite("enemy10"), assets.getSprite("enemy11"),
                                 assets.getSprite("enemy12"), assets.getSprite("enemy13"),
-                                assets.getSprite("enemy14"), assets.getSprite("enemy15")},// ded
+                                assets.getSprite("enemy14"), assets.getSprite("enemy15")},// dead
                         {assets.getSprite("boom"), assets.getSprite("boom")}
                 };
 
@@ -66,18 +64,22 @@ public class Enemy extends Entity {
         }
         liveX = x;
         liveY = y;
-        y += (float) SPEED;
+        y += (float) speed;
         fire();
         for (Animation a : animations) {
             if (a != animations[2] && a != animations[3])
                 a.update();
+        }
+
+        if (health <= 0) {
+            die();
         }
     }
 
     int projPPS = 60 * EnemyProjectile.SPEED;
     int playerPPS = 60 * Player.SPEED;
     float distToPlayer = 0, lastDistToPlayer = 0;
-    private void fire() {
+    protected void fire() {
         attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
 
@@ -125,51 +127,18 @@ public class Enemy extends Entity {
         if (dead)
             return;
 
-        if (checkEntityTitle(0, SPEED).equalsIgnoreCase("mProj")) {
+        if (checkEntityTitle(0, speed).equalsIgnoreCase("mProj")) {
             boom = true;
         }
 
         if (y < game.getHeight()) {
             SoundPlayer.playSound("/res/sounds/hit.wav");
-            addScore();
+            game.getPlayer().addScore();
         }
 
         x = 42069;
         y = 42069;
         dead = true;
-    }
-
-    private void addScore() {
-        int score = game.getPlayer().getScore();
-        game.getPlayer().setScore(score + 1);
-        score = game.getPlayer().getScore();
-
-        // handle killstreaks
-        if (score >= 10 && score < 20) {
-            game.getPlayer().setKillstreak("PRETTY GOOD!");
-        } else if (score >= 20 && score < 30) {
-            game.getPlayer().setKillstreak("RAMPAGE!");
-        } else if (score >= 30 && score < 40) {
-            game.getPlayer().setKillstreak("D1 COMMIT!");
-        } else if (score >= 40 && score < 50) {
-            game.getPlayer().setKillstreak("UNSTOPPABLE!");
-        } else if (score >= 50 && score < 60) {
-            game.getPlayer().setKillstreak("LEGENDARY!");
-        } else if (score >= 60 && score < 70) {
-            game.getPlayer().setKillstreak("HOLY GUACAMOLE!");
-        } else if (score >= 70 && score < 80) {
-            game.getPlayer().setKillstreak("TOO LEGIT TO QUIT!");
-        } else if (score >= 80 && score < 90) {
-            game.getPlayer().setKillstreak("WOOP WOOP!");
-        } else if (score >= 90 && score < 100) {
-            game.getPlayer().setKillstreak("YIPEE!");
-        } else if (score >= 100) {
-            game.getPlayer().setKillstreak("congrats ig.");
-        }
-
-        if (score % 10 == 0) {
-            SoundPlayer.playSound("/res/sounds/domination.wav");
-        }
     }
 
     private BufferedImage getCurrentAnimationFrame() {
@@ -181,5 +150,9 @@ public class Enemy extends Entity {
 
     public boolean isDeathAnimOver() {
         return animations[2].isOver();
+    }
+
+    public boolean hasRockets() {
+        return false;
     }
 }
