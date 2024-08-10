@@ -2,6 +2,8 @@ package dev.gfoster.game.entities.projectiles;
 
 import dev.gfoster.game.Game;
 import dev.gfoster.game.entities.Entity;
+import dev.gfoster.game.entities.enemies.Enemy;
+import dev.gfoster.game.entities.enemies.Meteor;
 import dev.gfoster.game.sfx.SoundPlayer;
 
 import java.awt.*;
@@ -28,7 +30,7 @@ public abstract class Projectile extends Entity {
         else if (direction < -1)
             direction = -1;
 
-        bounds = new Rectangle(0, 4, 11, 33);
+        bounds = new Rectangle(0, 4, 12, 32);
     }
 
     @Override
@@ -56,23 +58,35 @@ public abstract class Projectile extends Entity {
                 die();
                 // if enemy touches player laser
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.id.equals("fProj")) {
-                getEntityAt(0, yMove).die();
+                getEntityAt(0, yMove).harm(1);
+                Enemy e = (Enemy)getEntityAt(0, yMove);
+                if (e.hasRockets() && e.getHealth() <= 0)
+                    game.getPlayer().giveRockets();
                 die();
                 // if player laser touches meteor
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("fProj") && this.id.equals("mProj")) {
                 getEntityAt(0, yMove).die();
                 SoundPlayer.playSound("/res/sounds/blunt.wav");
-                this.speed -= 4;
+                Meteor m = (Meteor)this;
+                if (m.isReflectable())
+                    this.speed -= 4;
             } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("player") && this.id.equals("mProj")) {
-                game.getPlayer().die();
-                this.die();
-            } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.id.equals("mProj") && this.speed < 0) {
-                getEntityAt(0, yMove).setBoom();
-                getEntityAt(0, yMove).die();
-                SoundPlayer.playSound("/res/sounds/death.wav");
                 for (Entity e : game.getEntities()) {
                     if (!e.getId().equals("player"))
-                        e.die();
+                        e.harm(4);
+                }
+                game.getPlayer().setBoom();
+                game.getPlayer().die();
+            } else if (checkEntityTitle(0, yMove).equalsIgnoreCase("enemy") && this.id.equals("mProj") && this.speed < 0) {
+                getEntityAt(0, yMove).setBoom();
+                getEntityAt(0, yMove).harm(4);
+                Enemy e = (Enemy)getEntityAt(0, yMove);
+                if (e.hasRockets() && e.getHealth() <= 0)
+                    game.getPlayer().giveRockets();
+                SoundPlayer.playSound("/res/sounds/death.wav");
+                for (Entity n : game.getEntities()) {
+                    if (!n.getId().equals("player"))
+                        n.harm(2);
                 }
                 
                 this.die();
