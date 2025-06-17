@@ -1,17 +1,28 @@
-# Galaxy-Jam
+# Galaxy Jam
 
-I wrote the original version of this game in one night when I was 13 years old for the olcCodeJam 2021 competition. The theme was future. https://intothevoid701.itch.io/galaxy-jam
-It has had some updates since then, such as meteors and updated graphics, but the core gameplay is the same.
+---
 
-## BOOMSTREAKS 
+## Description
+Galaxy Jam is a lightweight 2D arcade-style space shooter developed in Java for the 2021 olcCodeJam competition, themed "Future." Designed and prototyped in under 24 hours, the project demonstrates game loop design, sprite animation, and collision detection. Music and sound effects are implemented using Java's built-in audio libraries.
 
-Every kill contributes to your boomstreak. When you die, your boomstreak resets. See how high you can get it. 
-If you can time it right, hit a meteor to change its course. If it hits an alien ship, every alien on the screen explodes.
+## Technical Highlights
 
-## MOVEMENT
+* Written entirely in Java using standard libraries (no external dependencies)
+* Compact real-time rendering loop and minimal memory footprint
+* Procedural enemy behavior and wave generation
+* Native Java audio integration for background music and sound effects
 
-Arrow keys/A & D keys - Move you left and right 
-Space bar/Z key - Shoot
+## Build Requirements
+
+* Java Development Kit (JDK) 8 or higher
+* Compatible with any Java-capable platform
+
+## Key Features
+
+* Boomstreak scoring system with combo multipliers
+* Meteor interaction to trigger chain explosions
+* Minimalist control scheme and intuitive input handling
+* Retro-style pixel art and sound design
 
 ## Demonstration
 
